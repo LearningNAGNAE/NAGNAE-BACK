@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto login(UserLoginDto loginDto) {
-        User user = userRepository.findByUsername(loginDto.getUsername());
+        User user = userRepository.findByUsername(loginDto.getUserName());
         // 여기에 로그인 로직 구현 (비밀번호 검증 등)
         return convertToDto(user);
     }
@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
         return convertToDto(user);
     }
 
-    private UserResponseDto convertToDto(User userVo) {
-        return new UserResponseDto(userVo.getId(), userVo.getUsername(), userVo.getEmail());
+    private UserResponseDto convertToDto(User user) {
+        return new UserResponseDto(user.getUserID(), user.getUserName(), user.getEmail());
     }
     
 
