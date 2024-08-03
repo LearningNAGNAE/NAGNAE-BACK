@@ -1,10 +1,10 @@
-package com.learningman.nagnae.chatbot.controller;
+package com.learningman.nagnae.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ChatbotController {
+public class UserController {
 
     @GetMapping("/")
     public String main() {
