@@ -4,11 +4,11 @@
 <mapper namespace="UserMapper">
 
 
-	<select id="findById" resultType="com.learningman.nagnae.model.UserVo">
+	<select id="findById" resultType="com.learningman.nagnae.model.User">
         SELECT * FROM users WHERE id = #{id}
     </select>
     
-    <select id="findByUsername" resultType="com.learningman.nagnae.model.UserVo">
+    <select id="findByUsername" resultType="com.learningman.nagnae.model.User">
         SELECT * FROM users WHERE username = #{username}
     </select>
     

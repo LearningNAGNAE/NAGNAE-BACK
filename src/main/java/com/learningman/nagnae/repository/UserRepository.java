@@ -1,13 +1,13 @@
 package com.learningman.nagnae.repository;
 
-import com.learningman.nagnae.model.UserVo;
+import com.learningman.nagnae.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;
 
 @Mapper
 public interface UserRepository {
-	Optional<UserVo> findById(Long id);
+	Optional<User> findById(Long id);
 
-    UserVo findByUsername(String username);
+    User findByUsername(String username);
 }
