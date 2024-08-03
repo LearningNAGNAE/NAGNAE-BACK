@@ -2,15 +2,7 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-		<!-- 
-    	<typeAlias alias="LebVo" type="com.javaex.vo.LebVo" />
-    	<typeAlias alias="KsbVo" type="com.javaex.vo.KsbVo" />
-    	<typeAlias alias="YdsVo" type="com.javaex.vo.YdsVo" />
-     	<typeAlias alias="PjhVo" type="com.javaex.vo.PjhVo" />
-    	<typeAlias alias="YdsAttachVo" type="com.javaex.vo.YdsAttachVo" />
-    	<typeAlias alias="YysVo2" type="com.javaex.vo.YysVo2" />
-    	-->
-    	<typeAlias alias="User" type="com.learningman.nagnae.model.User" />
+    	<typeAlias alias="UserVo" type="com.learningman.nagnae.model.UserVo" />
     </typeAliases>
     
     

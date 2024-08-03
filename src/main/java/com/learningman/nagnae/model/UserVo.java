@@ -11,13 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
-    private Long id;
+public class UserVo {
+	private Long id;
     private String username;
     private String email;
     private String password;
-    private String fullName;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private boolean isActive;
 }

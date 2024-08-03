@@ -4,15 +4,14 @@
 <mapper namespace="UserMapper">
 
 
-<!-- 좋아요 리스트 -->
-	<select id="selectCourse_Info" parameterType="int"
-		resultType="User">
-      <![CDATA[ 
-        select *
-		from course_list
-		where course_no = #{course_no}
-      ]]>
-	</select>
+	<select id="findById" resultType="com.learningman.nagnae.model.UserVo">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+    
+    <select id="findByUsername" resultType="com.learningman.nagnae.model.UserVo">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+    
 
 
 </mapper>
