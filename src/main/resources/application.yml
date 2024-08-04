@@ -23,7 +23,7 @@ spring:
       max-request-size: 50MB
 
 mybatis:
-  type-aliases-package: com.learningman.nagnae.domain.dto
+  type-aliases-package: com.learningman.nagnae.domain.dto, com.learningman.nagnae.authorization.dto, com.learningman.nagnae.authorization.model
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
