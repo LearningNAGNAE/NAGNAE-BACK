@@ -1,0 +1,29 @@
+server:
+  port: 9000
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: nagnae
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/nagnae_db?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    username: root
+    password: rhakqjsro12!
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+mybatis:
+  type-aliases-package: com.learningman.nagnae.domain.dto
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
