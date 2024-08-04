@@ -1,11 +1,11 @@
-package com.learningman.nagnae.controller;
+package com.learningman.nagnae.authorization.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.learningman.nagnae.dto.UserLoginDto;
-import com.learningman.nagnae.dto.UserResponseDto;
-import com.learningman.nagnae.service.UserService;
+import com.learningman.nagnae.authorization.dto.UserLoginDto;
+import com.learningman.nagnae.authorization.dto.UserResponseDto;
+import com.learningman.nagnae.authorization.service.UserService;
 import com.learningman.nagnae.util.JsonResult;
 import com.learningman.nagnae.util.JwtUtil;
 

@@ -1,7 +1,8 @@
-package com.learningman.nagnae.repository;
+package com.learningman.nagnae.authorization.repository;
 
-import com.learningman.nagnae.dto.UserLoginDto;
-import com.learningman.nagnae.model.User;
+import com.learningman.nagnae.authorization.dto.UserLoginDto;
+import com.learningman.nagnae.authorization.model.User;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.learningman.nagnae.dto;
+package com.learningman.nagnae.authorization.dto;
 
 import lombok.Data;
 

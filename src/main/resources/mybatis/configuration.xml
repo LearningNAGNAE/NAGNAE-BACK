@@ -2,8 +2,8 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-    	<typeAlias alias="User" type="com.learningman.nagnae.model.User" />
-    	<typeAlias alias="UserLoginDto" type="com.learningman.nagnae.dto.UserLoginDto" />
+    	<typeAlias alias="User" type="com.learningman.nagnae.authorization.model.User" />
+    	<typeAlias alias="UserLoginDto" type="com.learningman.nagnae.authorization.dto.UserLoginDto" />
     </typeAliases>
     
     <mappers>

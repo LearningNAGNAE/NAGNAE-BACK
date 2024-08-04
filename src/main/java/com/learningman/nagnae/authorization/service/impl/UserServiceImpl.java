@@ -1,13 +1,13 @@
-package com.learningman.nagnae.service.impl;
+package com.learningman.nagnae.authorization.service.impl;
 
 
 import org.springframework.stereotype.Service;
 
-import com.learningman.nagnae.dto.UserLoginDto;
-import com.learningman.nagnae.dto.UserResponseDto;
-import com.learningman.nagnae.model.User;
-import com.learningman.nagnae.repository.UserRepository;
-import com.learningman.nagnae.service.UserService;
+import com.learningman.nagnae.authorization.dto.UserLoginDto;
+import com.learningman.nagnae.authorization.dto.UserResponseDto;
+import com.learningman.nagnae.authorization.model.User;
+import com.learningman.nagnae.authorization.repository.UserRepository;
+import com.learningman.nagnae.authorization.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
