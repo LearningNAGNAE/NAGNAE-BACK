@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="UserMapper">
+<mapper namespace="com.learningman.nagnae.repository.UserRepository">
 
 
 	<select id="findById" resultType="com.learningman.nagnae.model.User">
         SELECT * FROM users WHERE id = #{id}
     </select>
     
-    <select id="findByUsername" resultType="com.learningman.nagnae.model.User">
-        SELECT * FROM users WHERE username = #{username}
+    <select id="findByUserLogin" parameterType="UserLoginDto" resultType="User">
+        SELECT * FROM user WHERE Email = #{Email} and Password = #{Password}
     </select>
     
 
