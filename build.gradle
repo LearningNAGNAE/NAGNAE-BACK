@@ -44,6 +44,9 @@ dependencies {
 
     // JWT 라이브러리
     implementation 'com.auth0:java-jwt:4.4.0'
+    
+    // spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 	
 }
 

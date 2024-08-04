@@ -9,6 +9,7 @@ public class UserResponseDto {
 	private int UserID;
     private String UserName;
     private String Email;
+    private String Password;
 
 
 }

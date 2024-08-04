@@ -3,6 +3,7 @@
 <configuration>
     <typeAliases>
     	<typeAlias alias="User" type="com.learningman.nagnae.model.User" />
+    	<typeAlias alias="UserLoginDto" type="com.learningman.nagnae.dto.UserLoginDto" />
     </typeAliases>
     
     <mappers>

@@ -18,11 +18,13 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    // 로그인
     @Override
-    public UserResponseDto login(UserLoginDto loginDto) {
-        User user = userRepository.findByUsername(loginDto.getUserName());
-        // 여기에 로그인 로직 구현 (비밀번호 검증 등)
-        return convertToDto(user);
+    public UserResponseDto exeLogin(UserLoginDto loginDto) {
+    	System.out.println(loginDto);
+    	User authUser = userRepository.findByUserLogin(loginDto);
+       
+    	return convertToDto(authUser);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserResponseDto convertToDto(User user) {
-        return new UserResponseDto(user.getUserID(), user.getUserName(), user.getEmail());
+        return new UserResponseDto(user.getUserID(), user.getUserName(), user.getEmail(), user.getPassword());
     }
     
 
