@@ -10,7 +10,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/api/**") // 경로
+		registry.addMapping("/**") // 경로
 				.allowedMethods("GET", "POST", "PUT", "DELETE")
 				.allowedOrigins("http://localhost:3000", "http://localhost:8000")
 				.allowedHeaders("*") // 모든 요청해더
