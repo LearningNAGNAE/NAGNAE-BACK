@@ -1,4 +1,4 @@
-package com.learningman.nagnae.util;
+package com.learningman.nagnae.authorization.util;
 
 import java.util.Date;
 

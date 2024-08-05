@@ -7,7 +7,7 @@ import com.learningman.nagnae.authorization.dto.UserLoginDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
 import com.learningman.nagnae.authorization.service.UserService;
 import com.learningman.nagnae.util.JsonResult;
-import com.learningman.nagnae.util.JwtUtil;
+import com.learningman.nagnae.authorization.util.JwtUtil;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +25,9 @@ public class UserController {
     
     // 로그인
     @PostMapping("/login/test")
-    public ResponseEntity<JsonResult> SignUp(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
+    public ResponseEntity<JsonResult> SignIn(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
     	
-    	log.info("user.login()");
+    	log.info("user.UserController()");
     	
     	try {
             UserResponseDto authUser = userService.exeLogin(userLoginDto);
