@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.learningman.nagnae.board.servie.BoardService;
 import com.learningman.nagnae.domain.dto.BoardDto;
-import com.learningman.nagnae.util.JsonResult;
+import com.learningman.nagnae.domain.response.responseMsg;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ public class BoardController {
 	private final BoardService boardService;
 
 	@PostMapping("/freeboardwrite")
-	public ResponseEntity<JsonResult> BoardFreeWrite (@RequestBody BoardDto freeboardDto) {
+	public ResponseEntity<responseMsg> BoardFreeWrite (@RequestBody BoardDto freeboardDto) {
 		System.out.println("BoardController.BoardFreeWrite()");
 		
 		freeboardDto.setBoardid(2);
@@ -31,7 +31,7 @@ public class BoardController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok(JsonResult.success(count));
+		return ResponseEntity.ok(responseMsg.success(count));
 	}
 	
 }

@@ -1,8 +1,9 @@
 package com.learningman.nagnae.study.controller;
 
 import com.learningman.nagnae.domain.dto.StudyCategoryDto;
+import com.learningman.nagnae.domain.response.TextStudyCategoryMsg;
 import com.learningman.nagnae.study.service.TextStudyService;
-import com.learningman.nagnae.util.JsonResult;
+import com.learningman.nagnae.domain.response.responseMsg;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,8 @@ public class TextStudyController {
     private final TextStudyService textStudyService;
 
     @GetMapping("/category")
-    public ResponseEntity<?> getTextStudyCategory() {
+    public ResponseEntity<responseMsg> getTextStudyCategory() {
         List<StudyCategoryDto> studyCategoryList = textStudyService.selectStudyCategoryList();
-        return ResponseEntity.ok(JsonResult.success(studyCategoryList));
+        return ResponseEntity.ok(responseMsg.success(new TextStudyCategoryMsg(studyCategoryList)));
     }
 }
