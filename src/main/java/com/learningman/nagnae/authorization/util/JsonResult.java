@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 public class JsonResult {
 
     private final String result;
-    private final Object apiData;
+    private final Object data;
     private final String message;
 
     public static JsonResult success(Object data) {
