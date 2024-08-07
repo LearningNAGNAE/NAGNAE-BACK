@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.learningman.nagnae.authorization.dto.UserLoginDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
 import com.learningman.nagnae.authorization.service.UserService;
-import com.learningman.nagnae.domain.response.responseMsg;
+import com.learningman.nagnae.domain.response.ResponseMsg;
 import com.learningman.nagnae.authorization.util.JwtUtil;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class UserController {
     
     // 로그인
     @PostMapping("/login/test")
-    public ResponseEntity<responseMsg> SignIn(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
+    public ResponseEntity<ResponseMsg> SignIn(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
     	
     	log.info("user.UserController()");
     	
@@ -33,15 +33,15 @@ public class UserController {
             UserResponseDto authUser = userService.exeLogin(userLoginDto);
             if (authUser != null) {
                 JwtUtil.createTokenAndSetHeader(response, String.valueOf(authUser.getUserID()));
-                return ResponseEntity.ok(responseMsg.success(authUser));
+                return ResponseEntity.ok(ResponseMsg.success(authUser));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(responseMsg.fail("로그인 실패: 잘못된 자격 증명"));
+                    .body(ResponseMsg.fail("로그인 실패: 잘못된 자격 증명"));
             }
         } catch (Exception e) {
             log.error("로그인 처리 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(responseMsg.fail("서버 오류가 발생했습니다."+ e.getMessage()));
+                .body(ResponseMsg.fail("서버 오류가 발생했습니다."+ e.getMessage()));
         }
         
     }
