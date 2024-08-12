@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserResponseDto convertToDto(User user) {
-        return new UserResponseDto(user.getUserID(), user.getUserName(), user.getEmail(), user.getPassword());
+        return new UserResponseDto(user.getUSER_NO(), user.getUSER_NAME(), user.getEMAIL(), user.getPASSWORD());
     }
     
 

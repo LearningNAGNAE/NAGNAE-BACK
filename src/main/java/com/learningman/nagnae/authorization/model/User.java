@@ -11,18 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class User {
-	private int UserID;
-    private String UserName;
-    private String Email;
-    private String Password;
-    private String Nationality;
-    private boolean IsActive;
-    private boolean IsDeleted;
-    private boolean IsAnonymized;
-    private String DeactivationDate;
-    private String CreatedAt;
-    private String UserOrgName;
-    private String UserFilePath;
-    private String UserSaveName;
-    private long UserFileSize;
+	private int USER_NO;
+    private String USER_NAME;
+    private String EMAIL;
+    private String PASSWORD;
+    private String NATIONLITY;
+    private boolean ACTIVE_YN;
+    private boolean WITHDRAW_YN;
+    private boolean ANONYMIZE_YN;
+    private int INSERT_USER_NO;
+    private String INSERT_DATE;
+    private int MODIFY_USER_NO;
+    private String MODIFY_DATE;
 }

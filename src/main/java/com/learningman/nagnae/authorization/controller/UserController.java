@@ -32,7 +32,7 @@ public class UserController {
     	try {
             UserResponseDto authUser = userService.exeLogin(userLoginDto);
             if (authUser != null) {
-                JwtUtil.createTokenAndSetHeader(response, String.valueOf(authUser.getUserID()));
+                JwtUtil.createTokenAndSetHeader(response, String.valueOf(authUser.getUSER_NO()));
                 return ResponseEntity.ok(JsonResult.success(authUser));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

@@ -9,7 +9,7 @@
     </select>
     
     <select id="findByUserLogin" parameterType="UserLoginDto" resultType="User">
-        SELECT * FROM user WHERE Email = #{Email} and Password = #{Password}
+        SELECT * FROM TUSER WHERE EMAIL = #{EMAIL} and PASSWORD = #{PASSWORD}
     </select>
     
 
