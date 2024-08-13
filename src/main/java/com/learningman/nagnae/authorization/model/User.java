@@ -23,4 +23,5 @@ public class User {
     private int modifyuserno;
     private String modifydate;
     private String userhp;
+    private int fileno;
 }

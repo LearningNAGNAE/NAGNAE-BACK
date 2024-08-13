@@ -1,9 +1,10 @@
 package com.learningman.nagnae.authorization.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.learningman.nagnae.authorization.dto.UserLoginDto;
+import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
 import com.learningman.nagnae.authorization.service.UserService;
 import com.learningman.nagnae.authorization.util.JsonResult;
@@ -19,11 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserController {
 
-	private final UserService userService;
+	@Autowired
+	private UserService userService;
 
 	// 로그인
 	@PostMapping("/login")
-	public ResponseEntity<JsonResult> SignIn(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
+	public ResponseEntity<JsonResult> SignIn(@RequestBody UserDto userLoginDto, HttpServletResponse response) {
 
 		log.info("user.UserController.SignIn()");
 		try {
@@ -42,18 +44,14 @@ public class UserController {
 
 	}
 
+	// 회원가입
     @PostMapping("/sign-up")
-    public ResponseEntity<JsonResult> SignUp(@RequestBody UserLoginDto loginDto, HttpServletResponse response) {
+    public ResponseEntity<JsonResult> SignUp(@RequestBody UserDto SignUpDto) {
     	
     	log.info("user.UserController.SignUp()");
-    	System.out.println("test");
-//        try {
-//            UserResponseDto response = userService.login(loginDto);
-//            return ResponseEntity.ok(JsonResult.success(response));
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body(responseMsg.fail(e.getMessage()));
-//        }
-    	return null;
+    	userService.exeSignUp(SignUpDto);
+    	
+    	return ResponseEntity.ok(JsonResult.success("회원가입 성공"));
     }
     
     

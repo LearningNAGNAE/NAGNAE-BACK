@@ -6,10 +6,14 @@
 
 	
     
-    <select id="findByUserLogin" parameterType="UserLoginDto" resultType="User">
+    <select id="findByUserLogin" parameterType="UserDto" resultType="User">
         SELECT * FROM TUSER WHERE EMAIL = #{email} and PASSWORD = #{password}
     </select>
     
+    <select id="SignUp" parameterType="UserDto">
+        INSERT INTO TUSER (USER_NO, USER_NAME, GRADE, EMAIL, PASSWORD, NATIONLITY, USER_HP, INSERT_DATE, MODIFY_DATE)
+		VALUES (null, #{username}, '일반', #{email}, #{password}, #{nationlity}, #{userhp}, NOW(), NOW())
+    </select>
 
 
 </mapper>

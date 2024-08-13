@@ -13,6 +13,7 @@ public class UserResponseDto {
     private String password;
     private String userhp;
     private String nationlity;
+    private int fileno;
 
 
 }
