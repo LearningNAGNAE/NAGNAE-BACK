@@ -7,6 +7,5 @@ public interface UserService {
 	// 로그인
     UserResponseDto exeLogin(UserLoginDto loginDto);
     
-    // 
-    UserResponseDto getUserById(Long id);
+    
 }

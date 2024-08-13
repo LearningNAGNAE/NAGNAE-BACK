@@ -4,12 +4,10 @@
 <mapper namespace="com.learningman.nagnae.authorization.repository.UserRepository">
 
 
-	<select id="findById" resultType="User">
-        SELECT * FROM user WHERE UserID = #{UserID}
-    </select>
+	
     
     <select id="findByUserLogin" parameterType="UserLoginDto" resultType="User">
-        SELECT * FROM TUSER WHERE EMAIL = #{EMAIL} and PASSWORD = #{PASSWORD}
+        SELECT * FROM TUSER WHERE EMAIL = #{email} and PASSWORD = #{password}
     </select>
     
 

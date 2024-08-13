@@ -6,10 +6,13 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UserResponseDto {
-	private int USER_NO;
-    private String USER_NAME;
-    private String EMAIL;
-    private String PASSWORD;
+	
+	private int userno;
+    private String username;
+    private String email;
+    private String password;
+    private String userhp;
+    private String nationlity;
 
 
 }

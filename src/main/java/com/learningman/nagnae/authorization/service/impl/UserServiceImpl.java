@@ -18,24 +18,24 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    // 로그인
+//     로그인
     @Override
     public UserResponseDto exeLogin(UserLoginDto loginDto) {
-    	System.out.println(loginDto);
     	User authUser = userRepository.findByUserLogin(loginDto);
+    	System.out.println(authUser);
        
     	return convertToDto(authUser);
     }
 
-    @Override
-    public UserResponseDto getUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        return convertToDto(user);
-    }
+//    @Override
+//    public UserResponseDto getUserById(Long id) {
+//        User user = userRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//        return convertToDto(user);
+//    }
 
     private UserResponseDto convertToDto(User user) {
-        return new UserResponseDto(user.getUSER_NO(), user.getUSER_NAME(), user.getEMAIL(), user.getPASSWORD());
+        return new UserResponseDto(user.getUserno(), user.getUsername(), user.getEmail(), user.getPassword(), user.getUserhp(), user.getNationlity());
     }
     
 

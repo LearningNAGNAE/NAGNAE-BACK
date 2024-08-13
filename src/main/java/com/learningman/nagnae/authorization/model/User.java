@@ -5,22 +5,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class User {
-	private int USER_NO;
-    private String USER_NAME;
-    private String EMAIL;
-    private String PASSWORD;
-    private String NATIONLITY;
-    private boolean ACTIVE_YN;
-    private boolean WITHDRAW_YN;
-    private boolean ANONYMIZE_YN;
-    private int INSERT_USER_NO;
-    private String INSERT_DATE;
-    private int MODIFY_USER_NO;
-    private String MODIFY_DATE;
+	private int userno;
+    private String username;
+    private String email;
+    private String password;
+    private String nationlity;
+    private boolean activeyn;
+    private boolean withdrawyn;
+    private boolean anonymizeyn;
+    private int insertuserno;
+    private String insertdate;
+    private int modifyuserno;
+    private String modifydate;
+    private String userhp;
 }

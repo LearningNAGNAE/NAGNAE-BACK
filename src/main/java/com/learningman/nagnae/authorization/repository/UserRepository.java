@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Mapper
 public interface UserRepository {
-	Optional<User> findById(Long id);
 
     User findByUserLogin(UserLoginDto loginDto);
 }
