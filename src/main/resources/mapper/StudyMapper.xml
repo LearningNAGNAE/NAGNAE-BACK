@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learningman.nagnae.study.repository.StudyMapper">
+
+    <select id="selectStudyCategoryList" resultType="StudyCategoryDto">
+        SELECT C.CATEGORY_NO
+             , C.CATEGORY_NAME
+        FROM TCATEGORY C
+        WHERE C.CATEGORY_GB_NO = 4;
+    </select>
+
+    <select id="selectStudyTextList" resultType="StudyTextDto">
+        SELECT T.TEXT_NO
+             , T.TEXT
+        FROM TTEXT T
+        WHERE CATEGORY_NO = #{categoryNo}
+    </select>
+
+    <select id="selectStudyImageList" resultType="StudyImageDto">
+        SELECT F.FILE_NO
+             , F.FILE_ORIGIN_NAME
+             , F.FILE_SAVE_NAME
+             , F.FILE_PATH
+        FROM TFILE F
+        WHERE CATEGORY_NO = 5
+          AND CATEGORY_SUB_NO = #{categorySubNo}
+    </select>
+
+</mapper>

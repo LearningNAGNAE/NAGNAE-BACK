@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class StudyCategoryDto {
 
-    private String categoryNo;
+    private int categoryNo;
     private String categoryName;
 
 }
