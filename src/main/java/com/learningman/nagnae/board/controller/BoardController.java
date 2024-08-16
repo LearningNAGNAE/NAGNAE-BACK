@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.learningman.nagnae.board.servie.BoardService;
+import com.learningman.nagnae.board.service.BoardService;
 import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.response.ResponseMsg;
 

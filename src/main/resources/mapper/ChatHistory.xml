@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.learningman.nagnae.chatbot.repository.ChatHistoryRepository">
+    <select id="findRecentChats" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
+        SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION, ch1.INSERT_USER_NO, ch1.INSERT_DATE
+        FROM TCHATHIS ch1
+        INNER JOIN (
+            SELECT CHAT_HIS_NO, MAX(CHAT_HIS_SEQ) as MAX_SEQ
+            FROM TCHATHIS
+            WHERE INSERT_USER_NO = #{userNo}
+            GROUP BY CHAT_HIS_NO
+        ) ch2 ON ch1.CHAT_HIS_NO = ch2.CHAT_HIS_NO AND ch1.CHAT_HIS_SEQ = ch2.MAX_SEQ
+        ORDER BY ch1.INSERT_DATE DESC
+    </select>
+    
+    <select id="findRecentChatDetail" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
+        SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION, ch1.INSERT_USER_NO, ch1.INSERT_DATE
+        FROM TCHATHIS ch1
+		WHERE INSERT_USER_NO = #{userNo}
+        and CHAT_HIS_NO = #{chatHisNo}
+        ORDER BY ch1.INSERT_DATE DESC
+    </select>
+
+
+    <select id="findAllChatsByHistoryNo" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
+        SELECT CHAT_HIS_NO, CHAT_HIS_SEQ, CATEGORY_NO, QUESTION, ANSWER, INSERT_USER_NO, INSERT_DATE
+        FROM TCHATHIS
+        WHERE CHAT_HIS_NO = #{chatHisNo}
+        ORDER BY CHAT_HIS_SEQ
+    </select>
+</mapper>

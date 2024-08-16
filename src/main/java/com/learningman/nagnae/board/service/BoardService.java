@@ -1,4 +1,4 @@
-package com.learningman.nagnae.board.servie;
+package com.learningman.nagnae.board.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
