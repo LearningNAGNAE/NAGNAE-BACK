@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.learningman.nagnae.board.servie.BoardService;
+import com.learningman.nagnae.board.service.BoardService;
 import com.learningman.nagnae.domain.dto.BoardDto;
 
 import lombok.RequiredArgsConstructor;
