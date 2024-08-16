@@ -1,5 +1,7 @@
 package com.learningman.nagnae.authorization.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
 
@@ -8,5 +10,5 @@ public interface UserService {
     UserResponseDto exeLogin(UserDto loginDto);
     
     // 회원가입
-    public void exeSignUp(UserDto SignUpDto);
+    void exeSignUp(UserDto signUpDto, MultipartFile file);
 }

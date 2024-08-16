@@ -2,9 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.learningman.nagnae.authorization.repository.UserRepository">
-
-
-	
     
     <select id="findByUserLogin" parameterType="UserDto" resultType="User">
         SELECT * FROM TUSER WHERE EMAIL = #{email} and PASSWORD = #{password}
@@ -15,5 +12,23 @@
 		VALUES (null, #{username}, '일반', #{email}, #{password}, #{nationlity}, #{userhp}, NOW(), NOW())
     </select>
 
+	<select id="InfoUser" parameterType="String" resultType="User">
+        SELECT * FROM TUSER WHERE EMAIL = #{signUpUserEmail}
+    </select>
+    
+    <select id="profileImg" parameterType="ProfileImgVo" resultType="ProfileImgDto">
+        INSERT INTO TFILE (FILE_NO, CATEGORY_NO, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_PATH, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
+    	VALUES (NULL, #{categoryno}, #{orgname}, #{savename}, #{filepath}, #{insertuserno}, NOW(), #{modifyuserno}, NOW())
+    </select>
+    
+    <select id="InfoFile" parameterType="int" resultType="ProfileImgDto">
+        SELECT * FROM TFILE WHERE INSERT_USER_NO = #{userNo} AND CATEGORY_NO = 1
+    </select>
+    
+    <select id="userFileNoUpdate" parameterType="User">
+        UPDATE TUSER
+	    	SET FILE_NO = #{fileno}
+	    WHERE USER_NO = #{userno}
+    </select>
 
 </mapper>

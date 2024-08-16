@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
 import com.learningman.nagnae.authorization.service.UserService;
@@ -43,42 +45,27 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(JsonResult.fail("서버 오류가 발생했습니다." + e.getMessage()));
 		}
-
 	}
 
 	// 회원가입
     @PostMapping("/sign-up")
-    public ResponseEntity<JsonResult> SignUp(@RequestBody UserDto SignUpDto) {
+    public ResponseEntity<JsonResult> SignUp(@RequestPart("userInfo") String userInfoJson, @RequestPart(value = "file", required = false) MultipartFile file) {
     	
     	log.info("user.UserController.SignUp()");
-    	userService.exeSignUp(SignUpDto);
     	
+        try {
+        	
+        	ObjectMapper objectMapper = new ObjectMapper();
+			UserDto SignUpDto = objectMapper.readValue(userInfoJson, UserDto.class);
+			
+			userService.exeSignUp(SignUpDto, file);
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
     	return ResponseEntity.ok(JsonResult.success("회원가입 성공"));
     }
     
-    // 사진등록
-    @PostMapping("/profile-img")
-    public ResponseEntity<JsonResult> ProfileImg(@RequestParam("file") MultipartFile file) {
-    	
-    	log.info("user.UserController.ProfileImg()");
-//    	System.out.println(file);
-//    	userService.exeSignUp();
-    	
-    	return ResponseEntity.ok(JsonResult.success("프로필 사진 등록 완료"));
-    }
     
-    
-    
-    
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<responseMsg> getUser(@PathVariable Long id) {
-//        try {
-//            UserResponseDto user = userService.getUserById(id);
-//            return ResponseEntity.ok(JsonResult.success(user));
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                                 .body(responseMsg.fail(e.getMessage()));
-//        }
-//    }
+
 }
