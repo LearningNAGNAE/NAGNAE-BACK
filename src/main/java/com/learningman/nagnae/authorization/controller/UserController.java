@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
 import com.learningman.nagnae.authorization.service.UserService;
@@ -54,6 +56,16 @@ public class UserController {
     	return ResponseEntity.ok(JsonResult.success("회원가입 성공"));
     }
     
+    // 사진등록
+    @PostMapping("/profile-img")
+    public ResponseEntity<JsonResult> ProfileImg(@RequestParam("file") MultipartFile file) {
+    	
+    	log.info("user.UserController.ProfileImg()");
+//    	System.out.println(file);
+//    	userService.exeSignUp();
+    	
+    	return ResponseEntity.ok(JsonResult.success("프로필 사진 등록 완료"));
+    }
     
     
     
