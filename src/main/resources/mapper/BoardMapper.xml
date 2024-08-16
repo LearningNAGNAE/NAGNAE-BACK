@@ -5,7 +5,7 @@
 <mapper namespace="com.learningman.nagnae.board.repository.BoardMapper">
 	
     <insert id="freeWrite" parameterType="BoardDto">
-		insert into post
-		values(null, #{title}, #{content} , now() , now(), #{hits} , #{userid} , #{boardid} );
+		insert into tboard
+		values(null, #{categoryno}, #{title} , #{content} , #{summary}, #{views} , #{insertuserno} , now() , #{modifyuserno}, now() );
     </insert>
 </mapper>

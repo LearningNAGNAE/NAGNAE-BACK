@@ -5,12 +5,14 @@ import lombok.Data;
 @Data
 public class BoardDto {
 
-	private int postid;
-	private int userid;
-	private int boardid;
+	private int boardno;
+	private int categoryno;
 	private String title;
 	private String content;
-	private String createdate;
-	private String lastmodifieddata;
-	private int hits;
+	private String summary;
+	private int views;
+	private int insertuserno;
+	private String insertdate;
+	private int modifyuserno;
+	private String modifydate;
 }
