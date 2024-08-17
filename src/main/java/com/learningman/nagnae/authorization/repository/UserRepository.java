@@ -18,10 +18,18 @@ public interface UserRepository {
     // 회원가입유저 정보
     User InfoUser(String signUpUserEmail);
     // 프로필사진 등록
-    ProfileImgDto profileImg(ProfileImgVo userImg);
+    void profileImg(ProfileImgVo userImg);
     // 가입 유저 프로필 사진 정보
     ProfileImgDto InfoFile(int userNo);
-    // 회원가입 유저 프로필 사진 번호 수정
+    // 회원 유저 프로필 사진 번호 수정
     void userFileNoUpdate(User userInfo);
+    // 회원정보수정(사진x)
+    void ModifyAccount(UserDto modifyAccountDto);
+    // 기존 유저 프로필 사진번호 null변경
+    void UserImgNoNull(int UserImgNoNull);
+    // 기존 유저 프로필 사진 삭제
+    void UserFileDelete(int UserFileDelete);
+    // 로그인한 회원정보
+    User loginUserInfo(UserDto loginDto);
     
 }

@@ -50,11 +50,8 @@ public class UserController {
 	// 회원가입
     @PostMapping("/sign-up")
     public ResponseEntity<JsonResult> SignUp(@RequestPart("userInfo") String userInfoJson, @RequestPart(value = "file", required = false) MultipartFile file) {
-    	
     	log.info("user.UserController.SignUp()");
-    	
         try {
-        	
         	ObjectMapper objectMapper = new ObjectMapper();
 			UserDto SignUpDto = objectMapper.readValue(userInfoJson, UserDto.class);
 			
@@ -64,6 +61,41 @@ public class UserController {
 			e.printStackTrace();
 		}
     	return ResponseEntity.ok(JsonResult.success("회원가입 성공"));
+    }
+    
+	// 회원정보수정
+    @PutMapping("/modify-account")
+    public ResponseEntity<JsonResult> ModifyAccount(@RequestPart("userInfo") String userInfoJson, @RequestPart(value = "file", required = false) MultipartFile file) {
+    	log.info("user.UserController.ModifyAccount()");
+        try {
+        	ObjectMapper objectMapper = new ObjectMapper();
+			UserDto modifyAccountDto = objectMapper.readValue(userInfoJson, UserDto.class);
+			System.out.println();
+			userService.exeModifyAccount(modifyAccountDto, file);
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+    	return ResponseEntity.ok(JsonResult.success("회원정보 수정 성공"));
+    }
+    
+    // 로그인유저정보
+    @PostMapping("/one-user-info")
+    public ResponseEntity<JsonResult> OneUserInfo(@RequestBody UserDto userLoginInfo) {
+    	log.info("user.UserController.OneUserInfo()");
+        try {
+        	
+        	UserResponseDto loginUser = userService.exeLoginUserInfo(userLoginInfo);
+        	
+        	return ResponseEntity.ok(JsonResult.success(loginUser));
+        } catch (Exception e) {
+			log.error("오류 발생", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(JsonResult.fail("서버 오류가 발생했습니다." + e.getMessage()));
+		}
+//    	return ResponseEntity.ok(JsonResult.success("회원정보 수정 성공"));
+        
+//        return null;
     }
     
     

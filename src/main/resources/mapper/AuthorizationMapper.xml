@@ -4,31 +4,67 @@
 <mapper namespace="com.learningman.nagnae.authorization.repository.UserRepository">
     
     <select id="findByUserLogin" parameterType="UserDto" resultType="User">
-        SELECT * FROM TUSER WHERE EMAIL = #{email} and PASSWORD = #{password}
+        SELECT tuser.*,
+			   tfile.FILE_ORIGIN_NAME as 'orgname',
+		       tfile.FILE_SAVE_NAME as 'savename',
+		       tfile.FILE_PATH as 'filepath'
+		FROM TUSER tuser
+		LEFT JOIN TFILE tfile ON tuser.USER_NO = tfile.INSERT_USER_NO
+        WHERE tuser.EMAIL = #{email} and tuser.PASSWORD = #{password}
     </select>
     
-    <select id="SignUp" parameterType="UserDto">
+    <insert id="SignUp" parameterType="UserDto">
         INSERT INTO TUSER (USER_NO, USER_NAME, GRADE, EMAIL, PASSWORD, NATIONLITY, USER_HP, INSERT_DATE, MODIFY_DATE)
 		VALUES (null, #{username}, '일반', #{email}, #{password}, #{nationlity}, #{userhp}, NOW(), NOW())
-    </select>
+    </insert>
 
 	<select id="InfoUser" parameterType="String" resultType="User">
         SELECT * FROM TUSER WHERE EMAIL = #{signUpUserEmail}
     </select>
     
-    <select id="profileImg" parameterType="ProfileImgVo" resultType="ProfileImgDto">
+    <insert id="profileImg" parameterType="ProfileImgVo">
         INSERT INTO TFILE (FILE_NO, CATEGORY_NO, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_PATH, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
     	VALUES (NULL, #{categoryno}, #{orgname}, #{savename}, #{filepath}, #{insertuserno}, NOW(), #{modifyuserno}, NOW())
-    </select>
+    </insert>
     
     <select id="InfoFile" parameterType="int" resultType="ProfileImgDto">
-        SELECT * FROM TFILE WHERE INSERT_USER_NO = #{userNo} AND CATEGORY_NO = 1
+        SELECT * FROM TFILE WHERE INSERT_USER_NO = #{userno} AND CATEGORY_NO = 1
     </select>
     
-    <select id="userFileNoUpdate" parameterType="User">
+    <update id="userFileNoUpdate" parameterType="User">
         UPDATE TUSER
 	    	SET FILE_NO = #{fileno}
 	    WHERE USER_NO = #{userno}
+    </update>
+    
+    <update id="UserImgNoNull" parameterType="int">
+        UPDATE TUSER
+	    	SET FILE_NO = null
+	    WHERE USER_NO = #{UserImgNoNull}
+    </update>
+    
+    <update id="ModifyAccount" parameterType="User">
+        UPDATE TUSER 
+			SET USER_NAME = #{username},
+			    PASSWORD = #{password},
+			    NATIONLITY = #{nationlity},
+			    USER_HP = #{userhp},
+			    MODIFY_DATE = NOW()
+		WHERE USER_NO = #{userno}
+    </update>
+    
+    <delete id="UserFileDelete" parameterType="int">
+        DELETE FROM TFILE WHERE MODIFY_USER_NO = #{UserFileDelete}
+    </delete>
+    
+    <select id="loginUserInfo" parameterType="UserDto" resultType="User">
+        SELECT tuser.*,
+			   tfile.FILE_ORIGIN_NAME as 'orgname',
+		       tfile.FILE_SAVE_NAME as 'savename',
+		       tfile.FILE_PATH as 'filepath'
+		FROM TUSER tuser
+		LEFT JOIN TFILE tfile ON tuser.USER_NO = tfile.INSERT_USER_NO
+        WHERE tuser.USER_NO = #{userno}
     </select>
 
 </mapper>

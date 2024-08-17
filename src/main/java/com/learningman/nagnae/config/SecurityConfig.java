@@ -31,7 +31,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 		} else {
 			System.out.println("윈도우");
 			// 파일저장디렉토리
-			saveDir = "D:\\javaStudy\\upload\\";
+			saveDir = "C:\\Users\\hi02\\dev\\upload\\";
 		}
 
 		registry.addResourceHandler("/upload/**").addResourceLocations("file:" + saveDir);
