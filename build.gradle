@@ -20,7 +20,7 @@ configurations {
 }
 
 compileJava {
-    options.compilerArgs += ['-parameters']
+    options.compilerArgs
 }
 
 repositories {

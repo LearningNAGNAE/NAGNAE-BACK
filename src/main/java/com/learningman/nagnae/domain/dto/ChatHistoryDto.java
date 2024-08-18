@@ -10,6 +10,6 @@ public class ChatHistoryDto {
     private Integer categoryNo;
     private String question;
     private String answer;
-    private Integer insertUserNo;
+    private Integer userNo;
     private LocalDateTime insertDate;
 }

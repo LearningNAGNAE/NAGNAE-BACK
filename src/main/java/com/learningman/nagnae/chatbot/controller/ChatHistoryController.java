@@ -20,11 +20,10 @@ public class ChatHistoryController {
     private final ChatHistoryService chatHistoryService;
 
     @GetMapping("/recent")
-    public ResponseEntity<JsonResult> getRecentChats(@RequestParam("userNo") String StringuserNo) {
-        log.info("chatbot.ChatHistoryController.getRecentChats() for userNo: {}", StringuserNo);
-        int userNo = Integer.parseInt(StringuserNo);
+    public ResponseEntity<JsonResult> getRecentChats(@RequestParam("userNo") Integer userNo) {
+        log.info("chatbot.ChatHistoryController.getRecentChats() for userNo: {}", userNo);
         try {
-            if (StringuserNo == null) {
+            if (userNo == null) {
                 return ResponseEntity.badRequest().body(JsonResult.fail("User number is required"));
             }
             List<ChatHistoryDto> recentChats = chatHistoryService.getRecentChats(userNo);
@@ -37,21 +36,21 @@ public class ChatHistoryController {
         }
     }
     
-    @GetMapping("/recent-detail")
-    public ResponseEntity<JsonResult> getRecentChatDetail(@RequestParam("userNo") Integer userNo,
-                                                          @RequestParam("chatHisNo") Integer chatHisNo) {
+    @GetMapping("/recent-detail/{userNo}/{chatHisNo}")
+    public ResponseEntity<JsonResult> getRecentChatDetail(
+        @PathVariable("userNo") int userNo,
+        @PathVariable("chatHisNo") int chatHisNo) {
+        
         log.info("chatbot.ChatHistoryController.getRecentChatDetail() for userNo: {} and chatHisNo: {}", userNo, chatHisNo);
+        
         try {
-            if (userNo == null) {
-                return ResponseEntity.badRequest().body(JsonResult.fail("User number is required"));
-            }
             List<ChatHistoryDto> recentChatDetails = chatHistoryService.getRecentChatDetails(userNo, chatHisNo);
             log.info("Returning {} recent chat details for userNo: {} and chatHisNo: {}", recentChatDetails.size(), userNo, chatHisNo);
             return ResponseEntity.ok(JsonResult.success(recentChatDetails));
         } catch (Exception e) {
             log.error("Error occurred while fetching recent chat details for userNo: {} and chatHisNo: {}", userNo, chatHisNo, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(JsonResult.fail("서버 오류가 발생했습니다: " + e.getMessage()));
+                .body(JsonResult.fail("서버 오류가 발생했습니다: " + e.getMessage()));
         }
     }
 
