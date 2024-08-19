@@ -1,10 +1,13 @@
 package com.learningman.nagnae.board.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.learningman.nagnae.board.repository.BoardMapper;
 import com.learningman.nagnae.domain.dto.BoardDto;
+import com.learningman.nagnae.domain.dto.BoardListDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,5 +25,21 @@ public class BoardService {
 		
 		return count;
 	}
-
+	
+	public List<BoardListDto> exeBoardFreeList(int categoryNo, int page, int size, String search) {
+		System.out.println("BoardService.exeBoardFreeList()");
+		
+		int offset = (page - 1) * size;
+		
+        return boardmapper.freeList(categoryNo, size, offset, search);
+	}
+	
+	public int getTotalPosts(int categoryNo, String search) {
+        return boardmapper.countPosts(categoryNo, search);
+    }
+	
+	public int getTotalPages(int categoryNo, int pageSize, String search) {
+        int totalPosts = boardmapper.countPosts(categoryNo,search);
+        return (int) Math.ceil((double) totalPosts / pageSize);
+    }
 }

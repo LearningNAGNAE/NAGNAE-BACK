@@ -8,4 +8,22 @@
 		insert into tboard
 		values(null, #{categoryno}, #{title} , #{content} , #{summary}, #{views} , #{insertuserno} , now() , #{modifyuserno}, now() );
     </insert>
+    
+    <select id="freeList" parameterType="map" resultType="BoardListDto">
+		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
+        FROM tboard tb
+        JOIN tuser tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryNo}
+        AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
+        ORDER BY tb.BOARD_NO DESC
+        LIMIT #{size} OFFSET #{offset}
+	</select>
+	
+	<select id="countPosts" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM tboard tb
+        JOIN tuser tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryNo}
+        AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
+    </select>
 </mapper>
