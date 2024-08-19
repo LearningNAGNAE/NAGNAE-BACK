@@ -1,12 +1,14 @@
-package com.learningman.nagnae.authorization.dto;
+package com.learningman.nagnae.authorization.model;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileImgDto {
+@Builder
+public class ProfileImgVo {
 	private int fileno;
 	private int categoryno;
     private String savename;

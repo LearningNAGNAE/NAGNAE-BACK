@@ -24,4 +24,8 @@ public class User {
     private String modifydate;
     private String userhp;
     private int fileno;
+    private int categoryno;
+    private String savename;
+    private String orgname;
+    private String filepath;
 }

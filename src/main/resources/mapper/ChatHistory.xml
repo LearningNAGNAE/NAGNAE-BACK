@@ -14,14 +14,14 @@
         ORDER BY ch1.INSERT_DATE DESC
     </select>
     
+
 	<select id="findRecentChatDetails" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
 	    SELECT CHAT_HIS_NO, CHAT_HIS_SEQ as chatHisSeq, CATEGORY_NO as categoryNo, QUESTION, ANSWER as answer,INSERT_USER_NO as userNo, INSERT_DATE as insertDate
 	    FROM TCHATHIS
 	    WHERE INSERT_USER_NO = #{param1}
 	    AND CHAT_HIS_NO = #{param2}
-	</select>
-
-
+    </select>
+    
     <select id="findAllChatsByHistoryNo" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
         SELECT CHAT_HIS_NO, CHAT_HIS_SEQ, CATEGORY_NO, QUESTION, ANSWER, INSERT_USER_NO, INSERT_DATE
         FROM TCHATHIS
