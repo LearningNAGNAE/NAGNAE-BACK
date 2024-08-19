@@ -55,17 +55,17 @@ public class ChatHistoryController {
         }
     }
 
-    @GetMapping("/{chatHisNo}")
-    public ResponseEntity<JsonResult> getChatsByHistoryNo(@PathVariable Integer chatHisNo) {
-        log.info("chatbot.ChatHistoryController.getChatsByHistoryNo() for chatHisNo: {}", chatHisNo);
-        try {
-            List<ChatHistoryDto> chatHistory = chatHistoryService.getChatsByHistoryNo(chatHisNo);
-            log.info("Returning {} chat messages for chatHisNo: {}", chatHistory.size(), chatHisNo);
-            return ResponseEntity.ok(JsonResult.success(chatHistory));
-        } catch (Exception e) {
-            log.error("Error occurred while fetching chat history for chatHisNo: {}", chatHisNo, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(JsonResult.fail("서버 오류가 발생했습니다: " + e.getMessage()));
-        }
-    }
+//    @GetMapping("/{chatHisNo}")
+//    public ResponseEntity<JsonResult> getChatsByHistoryNo(@PathVariable Integer chatHisNo) {
+//        log.info("chatbot.ChatHistoryController.getChatsByHistoryNo() for chatHisNo: {}", chatHisNo);
+//        try {
+//            List<ChatHistoryDto> chatHistory = chatHistoryService.getChatsByHistoryNo(chatHisNo);
+//            log.info("Returning {} chat messages for chatHisNo: {}", chatHistory.size(), chatHisNo);
+//            return ResponseEntity.ok(JsonResult.success(chatHistory));
+//        } catch (Exception e) {
+//            log.error("Error occurred while fetching chat history for chatHisNo: {}", chatHisNo, e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(JsonResult.fail("서버 오류가 발생했습니다: " + e.getMessage()));
+//        }
+//    }
 }
