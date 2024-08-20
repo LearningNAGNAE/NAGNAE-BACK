@@ -54,17 +54,20 @@ public class ChatHistoryController {
         }
     }
 
-//    @GetMapping("/{chatHisNo}")
-//    public ResponseEntity<JsonResult> getChatsByHistoryNo(@PathVariable Integer chatHisNo) {
-//        log.info("chatbot.ChatHistoryController.getChatsByHistoryNo() for chatHisNo: {}", chatHisNo);
-//        try {
-//            List<ChatHistoryDto> chatHistory = chatHistoryService.getChatsByHistoryNo(chatHisNo);
-//            log.info("Returning {} chat messages for chatHisNo: {}", chatHistory.size(), chatHisNo);
-//            return ResponseEntity.ok(JsonResult.success(chatHistory));
-//        } catch (Exception e) {
-//            log.error("Error occurred while fetching chat history for chatHisNo: {}", chatHisNo, e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(JsonResult.fail("서버 오류가 발생했습니다: " + e.getMessage()));
-//        }
-//    }
+    @GetMapping("/recent-all")
+    public ResponseEntity<JsonResult> getRecentChatAll(@RequestParam("userNo") Integer userNo) {
+        log.info("chatbot.ChatHistoryController.getRecentChats() for userNo: {}", userNo);
+        try {
+            if (userNo == null) {
+                return ResponseEntity.badRequest().body(JsonResult.fail("User number is required"));
+            }
+            List<ChatHistoryDto> recentChats = chatHistoryService.findRecentChatAll(userNo);
+            log.info("Returning {} recent chats for userNo: {}", recentChats.size(), userNo);
+            return ResponseEntity.ok(JsonResult.success(recentChats));
+        } catch (Exception e) {
+            log.error("Error occurred while fetching recent chats for userNo: {}", userNo, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(JsonResult.fail("서버 오류가 발생했습니다: " + e.getMessage()));
+        }
+    }
 }

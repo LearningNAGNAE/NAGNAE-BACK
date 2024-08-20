@@ -8,5 +8,5 @@ import java.util.List;
 public interface ChatHistoryRepository {
     List<ChatHistoryDto> findRecentChats(Integer userNo);
     List<ChatHistoryDto> findRecentChatDetails(Integer userNo, Integer chatHisNo);
-    List<ChatHistoryDto> findAllChatsByHistoryNo(Integer chatHisNo);
+    List<ChatHistoryDto> findRecentChatAll(Integer userNo);
 }

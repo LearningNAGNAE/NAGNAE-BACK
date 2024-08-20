@@ -19,7 +19,7 @@ public class ChatHistoryService {
         return chatHistoryRepository.findRecentChatDetails(userNo, chatHisNo);
     }
     
-    public List<ChatHistoryDto> getChatsByHistoryNo(Integer chatHisNo) {
-        return chatHistoryRepository.findAllChatsByHistoryNo(chatHisNo);
+    public List<ChatHistoryDto> findRecentChatAll(Integer userNo) {
+        return chatHistoryRepository.findRecentChatAll(userNo);
     }
 }
