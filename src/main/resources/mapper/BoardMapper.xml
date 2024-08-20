@@ -26,4 +26,9 @@
         WHERE tb.CATEGORY_NO = #{categoryNo}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
     </select>
+    
+    <insert id="insertFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileNo">
+      INSERT INTO TFILE (CATEGORY_NO, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_PATH, INSERT_DATE, MODIFY_DATE)
+      VALUES (#{categoryNo}, #{fileOriginName}, #{fileSaveName}, #{filePath}, NOW(), NOW())
+    </insert>
 </mapper>

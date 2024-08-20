@@ -1,11 +1,11 @@
 package com.learningman.nagnae.board.controller;
 
-import com.learningman.nagnae.domain.response.ResponseMsg;
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.learningman.nagnae.board.service.BoardService;
 import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
+import com.learningman.nagnae.domain.response.ResponseMsg;
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,6 +65,18 @@ public class BoardController {
 	    response.put("pageSize", size);
 		
 		return ResponseEntity.ok(ResponseMsg.success(response));
+	}
+	
+	@PostMapping("/upload-image")
+	public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) {
+	    try {
+	        String imageUrl = boardService.saveImageAndGetUrl(file);
+	        return ResponseEntity.ok(Collections.singletonMap("imageUrl", imageUrl));
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body(Collections.singletonMap("error", e.getMessage()));
+	    }
 	}
 	
 }

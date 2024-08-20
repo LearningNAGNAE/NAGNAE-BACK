@@ -1,11 +1,14 @@
 package com.learningman.nagnae.board.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.learningman.nagnae.board.repository.BoardMapper;
+import com.learningman.nagnae.common.FileService;
 import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
 
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 	
 	private final BoardMapper boardmapper;
+    private final FileService fileService;
 	
 	public int exeBoardFreeWrite (BoardDto freeboardDto) {
 		System.out.println("BoardService.exeBoardFreeWrite()");
@@ -42,4 +46,10 @@ public class BoardService {
         int totalPosts = boardmapper.countPosts(categoryNo,search);
         return (int) Math.ceil((double) totalPosts / pageSize);
     }
+	
+	public String saveImageAndGetUrl(MultipartFile file) throws IOException {
+		return fileService.saveImageAndGetUrl(file);
+    }
+	
+	
 }
