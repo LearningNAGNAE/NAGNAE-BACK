@@ -24,7 +24,7 @@
     
     <insert id="profileImg" parameterType="ProfileImgVo">
         INSERT INTO TFILE (FILE_NO, CATEGORY_NO, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_PATH, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
-    	VALUES (NULL, #{categoryno}, #{orgname}, #{savename}, #{filepath}, #{insertuserno}, NOW(), #{modifyuserno}, NOW())
+    	VALUES (0, #{categoryno}, #{orgname}, #{savename}, #{filepath}, #{insertuserno}, NOW(), #{modifyuserno}, NOW())
     </insert>
     
     <select id="InfoFile" parameterType="int" resultType="ProfileImgDto">

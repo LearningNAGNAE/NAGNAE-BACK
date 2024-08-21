@@ -94,10 +94,10 @@ public class UserController {
     @PutMapping("/modify-account")
     public ResponseEntity<JsonResult> ModifyAccount(@RequestPart("userInfo") String userInfoJson, @RequestPart(value = "file", required = false) MultipartFile file) {
     	log.info("user.UserController.ModifyAccount()");
+    	System.out.println();
         try {
         	ObjectMapper objectMapper = new ObjectMapper();
 			UserDto modifyAccountDto = objectMapper.readValue(userInfoJson, UserDto.class);
-			System.out.println();
 			userService.exeModifyAccount(modifyAccountDto, file);
 			
 		} catch (JsonProcessingException e) {

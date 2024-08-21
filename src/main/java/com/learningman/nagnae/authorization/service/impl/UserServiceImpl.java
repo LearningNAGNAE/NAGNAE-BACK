@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
 	            saveDir = "/app/upload";
 	        } else {
 	            log.info("Operating system: Windows");
-	            saveDir = "C:\\Users\\hi02\\dev\\NAGNAE\\NAGNAE-FRONT\\src\\assets\\images\\img";
+	            saveDir = "C:\\Users\\hi02\\dev\\NAGNAE\\NAGNAE-FRONT\\src\\assets\\images\\profile";
 	        }
 	
 	        String orgName = file.getOriginalFilename();
@@ -221,6 +221,7 @@ public class UserServiceImpl implements UserService {
         // 데이터베이스에서 이메일로 사용자 존재 여부 확인
     	return userRepository.findByEmail(email).isPresent();
     }
+    
     @Override
     public User createGoogleUser(String userId, String email, String name) {
     	// 새 Google 사용자 정보를 데이터베이스에 저장
@@ -240,7 +241,6 @@ public class UserServiceImpl implements UserService {
     	
         return insertedUser;
     }
-    
     
     @Override
     public Optional<User> GoogleEmail(String email) {
