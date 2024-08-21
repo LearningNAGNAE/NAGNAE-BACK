@@ -1,15 +1,21 @@
 package com.learningman.nagnae.authorization.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class UserResponseDto {
-	
-	private int userno;
-    private String username;
+@RequiredArgsConstructor
+@Builder
+public class GoogleAuthResponseDto {
+	private String token;
+    private boolean NewUser;
     private String email;
+    private String name;
+    private int userno;
+    private String username;
     private String password;
     private String nationlity;
     private boolean activeyn;

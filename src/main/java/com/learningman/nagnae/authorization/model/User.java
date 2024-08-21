@@ -28,4 +28,6 @@ public class User {
     private String savename;
     private String orgname;
     private String filepath;
+    private String grade;
+    private String provider;
 }

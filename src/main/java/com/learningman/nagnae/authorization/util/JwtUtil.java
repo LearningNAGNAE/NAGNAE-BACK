@@ -23,7 +23,7 @@ public class JwtUtil {
         addResponseHeaderToken(response, token);
     }
 
-    private static String createToken(String tokenSubject) {
+    public static String createToken(String tokenSubject) {
         return JWT.create()
                   .withSubject(tokenSubject)
                   .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRE_TIME))

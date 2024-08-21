@@ -5,6 +5,8 @@ import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.model.ProfileImgVo;
 import com.learningman.nagnae.authorization.model.User;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 
 
@@ -31,5 +33,13 @@ public interface UserRepository {
     void UserFileDelete(int UserFileDelete);
     // 로그인한 회원정보
     User loginUserInfo(UserDto loginDto);
+    // 구글 아이디 여부
+    Optional<User> findByEmail(String email);
+    // 구글 아이디 생성
+    void createGoogleUser(User user);
+    
+    User selectUserById(int userno);
+    
+    User UserEmailInfo(String email);
     
 }
