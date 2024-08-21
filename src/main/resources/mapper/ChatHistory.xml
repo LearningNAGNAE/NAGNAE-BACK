@@ -25,7 +25,7 @@
     </select>
     
     <select id="findRecentChatAll" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
-		SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION, ch1.INSERT_DATE
+		SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION, ANSWER as answer, ch1.INSERT_DATE
 		FROM TCHATHIS ch1
 		INNER JOIN (
 		    SELECT CHAT_HIS_NO, MAX(CHAT_HIS_SEQ) as MAX_SEQ
