@@ -11,6 +11,8 @@ import com.learningman.nagnae.board.repository.BoardMapper;
 import com.learningman.nagnae.common.FileService;
 import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
+import com.learningman.nagnae.domain.dto.BoardReadDto;
+import com.learningman.nagnae.domain.dto.CommentDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,5 +53,23 @@ public class BoardService {
 		return fileService.saveImageAndGetUrl(file);
     }
 	
+	public BoardReadDto exeBoardRead(int boardno) {
+
+        return boardmapper.selectBoardread(boardno);
+    }
+	
+	public int exeBoardFreeCommentWrite(CommentDto commentDto) {
+        // 댓글을 삽입합니다.
+		boardmapper.insertComment(commentDto);
+        
+        // 삽입된 댓글의 ID를 설정합니다.
+        Long commentno = commentDto.getCommentno();
+        commentDto.setCommentno(commentno);
+        
+        // 댓글과 게시물을 연결합니다.
+        int count = boardmapper.insertBoardComment(commentDto);
+        
+        return count;
+    }
 	
 }

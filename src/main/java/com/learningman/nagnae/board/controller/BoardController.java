@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.learningman.nagnae.board.service.BoardService;
 import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
+import com.learningman.nagnae.domain.dto.BoardReadDto;
+import com.learningman.nagnae.domain.dto.CommentDto;
 import com.learningman.nagnae.domain.response.ResponseMsg;
 
 import lombok.RequiredArgsConstructor;
@@ -79,4 +81,28 @@ public class BoardController {
 	    }
 	}
 	
+	
+	@GetMapping("/freeboardread")
+    public ResponseEntity<ResponseMsg> BoardRead(@RequestParam("boardno") int boardno) {
+		System.out.println("BoardController.BoardRead()");
+//		System.out.println(boardno);
+//        int boardno = Integer.parseInt(sboardno);
+		BoardReadDto boardwriteDto = boardService.exeBoardRead(boardno);
+		
+		return ResponseEntity.ok(ResponseMsg.success(boardwriteDto));
+    }
+	
+	@PostMapping("/freeboardcommentwrite")
+    public ResponseEntity<ResponseMsg> BoardFreeCommentWrite(@RequestBody CommentDto commentDto) {
+        System.out.println("BoardController.BoardFreeCommentWrite()");
+        System.out.println(commentDto);
+        // 댓글을 삽입하고 게시물과 연결합니다.
+        int count = boardService.exeBoardFreeCommentWrite(commentDto);
+        
+        if (count == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        return ResponseEntity.ok(ResponseMsg.success(count));
+    }
 }

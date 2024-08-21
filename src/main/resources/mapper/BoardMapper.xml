@@ -31,4 +31,33 @@
       INSERT INTO TFILE (CATEGORY_NO, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_PATH, INSERT_DATE, MODIFY_DATE)
       VALUES (#{categoryNo}, #{fileOriginName}, #{fileSaveName}, #{filePath}, NOW(), NOW())
     </insert>
+    
+    <select id="selectBoardread" resultType="BoardReadDto">
+        SELECT tb.CONTENT,
+			   tb.TITLE,
+		       tb.VIEWS,
+		       tb.INSERT_DATE,
+		       tu.USER_NAME,
+		       tu.NATIONLITY
+		FROM tboard tb,tuser tu
+		WHERE tb.INSERT_USER_NO = tu.USER_NO
+		AND BOARD_NO = #{boardno}
+    </select>
+    
+    <insert id="insertComment" parameterType="CommentDto" keyProperty="commentno" useGeneratedKeys="true">
+	    INSERT INTO tcomment
+	    (CONTENT, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
+	    VALUES (#{content}, #{commenterno}, now(), #{commenterno}, now());
+	</insert>
+	
+	<insert id="insertBoardComment" parameterType="CommentDto">
+	    INSERT INTO tboardcomment
+	    (BOARD_NO, COMMENT_NO, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
+	    VALUES (#{boardno}, #{commentno}, #{commenterno}, now(), #{commenterno}, now());
+	</insert>
+	
+	<select id="getCommentById" parameterType="Long" resultType="CommentDto">
+	    SELECT * FROM tcomment WHERE COMMENT_NO = #{commentno}
+	</select>
+    
 </mapper>

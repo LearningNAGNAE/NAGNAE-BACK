@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
+import com.learningman.nagnae.domain.dto.BoardReadDto;
+import com.learningman.nagnae.domain.dto.CommentDto;
 import com.learningman.nagnae.domain.dto.FileDto;
 
 @Mapper
@@ -22,4 +24,13 @@ public interface BoardMapper {
 	int countPosts(@Param("categoryNo") int categoryNo, @Param("search") String search);
 	
 	int insertFile(FileDto fileDto);
+	
+	BoardReadDto selectBoardread(int boardno);
+	
+	void insertComment(CommentDto comment);
+	
+    int insertBoardComment(CommentDto commentDto);
+    
+    CommentDto getCommentById(Long commentno);
+
 }
