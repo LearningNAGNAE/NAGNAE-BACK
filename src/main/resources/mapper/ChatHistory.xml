@@ -3,7 +3,7 @@
 
 <mapper namespace="com.learningman.nagnae.chatbot.repository.ChatHistoryRepository">
     <select id="findRecentChats" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
-		SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION
+		SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION, ch1.INSERT_DATE
 		FROM TCHATHIS ch1
 		INNER JOIN (
 		    SELECT CHAT_HIS_NO, MAX(CHAT_HIS_SEQ) as MAX_SEQ
@@ -12,8 +12,8 @@
 		    GROUP BY CHAT_HIS_NO
 		) ch2 ON ch1.CHAT_HIS_NO = ch2.CHAT_HIS_NO AND ch1.CHAT_HIS_SEQ = ch2.MAX_SEQ
 		WHERE ch1.INSERT_USER_NO = #{userNo}
-		ORDER BY ch1.CHAT_HIS_NO DESC
-		LIMIT 4
+		ORDER BY ch1.INSERT_DATE DESC
+		LIMIT 3
     </select>
     
 
@@ -25,7 +25,7 @@
     </select>
     
     <select id="findRecentChatAll" resultType="com.learningman.nagnae.domain.dto.ChatHistoryDto">
-		SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION
+		SELECT ch1.CHAT_HIS_NO, ch1.CATEGORY_NO, ch1.QUESTION, ch1.INSERT_DATE
 		FROM TCHATHIS ch1
 		INNER JOIN (
 		    SELECT CHAT_HIS_NO, MAX(CHAT_HIS_SEQ) as MAX_SEQ
@@ -34,6 +34,6 @@
 		    GROUP BY CHAT_HIS_NO
 		) ch2 ON ch1.CHAT_HIS_NO = ch2.CHAT_HIS_NO AND ch1.CHAT_HIS_SEQ = ch2.MAX_SEQ
 		WHERE ch1.INSERT_USER_NO = #{userNo}
-		ORDER BY ch1.CHAT_HIS_NO DESC
+		ORDER BY ch1.INSERT_DATE DESC
     </select>
 </mapper>
