@@ -1,6 +1,7 @@
 package com.learningman.nagnae.authorization.service.impl;
 
 
+import java.util.Optional;
 import java.util.UUID;
 import java.io.*;
 
@@ -214,6 +215,68 @@ public class UserServiceImpl implements UserService {
     	return convertToDto(authUser);
     }
     
+    // 구글 로그인
+    @Override
+    public boolean userExists(String email) {
+        // 데이터베이스에서 이메일로 사용자 존재 여부 확인
+    	return userRepository.findByEmail(email).isPresent();
+    }
+    @Override
+    public User createGoogleUser(String userId, String email, String name) {
+    	// 새 Google 사용자 정보를 데이터베이스에 저장
+    	User newUser = new User();
+        newUser.setUserno(0);  // Auto-increment이므로 null 설정
+        newUser.setUsername(name);
+        newUser.setGrade("일반");  // 또는 Google 사용자에 대한 특정 등급
+        newUser.setEmail(email);
+        newUser.setPassword(""); // Google 로그인이므로 비밀번호 불필요, 하지만 NOT NULL 제약조건 때문에 빈 문자열 입력
+        newUser.setNationlity(""); // 기본값 설정 필요
+        newUser.setFileno(0);
+        newUser.setUserhp(""); // Google에서 전화번호를 제공하지 않으므로 빈 문자열 또는 null 설정
+        newUser.setProvider("GOOGLE");
+        userRepository.createGoogleUser(newUser);
+        
+        User insertedUser = userRepository.selectUserById(newUser.getUserno());
+    	
+        return insertedUser;
+    }
+    
+    
+    @Override
+    public Optional<User> GoogleEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserDto createUserResponseDto(User user) {
+        // User 객체를 UserResponseDto로 변환하는 로직
+    	UserDto dto = new UserDto();
+        dto.setUserno(user.getUserno());
+        dto.setEmail(user.getEmail());
+        // 필요한 다른 필드들 설정
+        return dto;
+    }
+    
+    @Override
+    public User UserEmailInfo(String email) {
+        // 데이터베이스에서 이메일로 사용자 존재 여부 확인
+    	return userRepository.UserEmailInfo(email);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -223,17 +286,22 @@ public class UserServiceImpl implements UserService {
             user.getUsername(),
             user.getEmail(),
             user.getPassword(),
+            user.getNationlity(),        // 수정된 순서
+            user.isActiveyn(),           // 추가된 필드
+            user.isWithdrawyn(),         // 추가된 필드
+            user.isAnonymizeyn(),        // 추가된 필드
+            user.getInsertuserno(),
+            user.getInsertdate(),
+            user.getModifyuserno(),
+            user.getModifydate(),
             user.getUserhp(),
-            user.getNationlity(),
             user.getFileno(),
-            user.getCategoryno(),        // 추가된 필드
-            user.getSavename(),          // 추가된 필드
-            user.getOrgname(),           // 추가된 필드
-            user.getFilepath(),          // 추가된 필드
-            user.getInsertuserno(),      // 추가된 필드
-            user.getInsertdate(),        // 추가된 필드
-            user.getModifyuserno(),      // 추가된 필드
-            user.getModifydate()         // 추가된 필드
+            user.getCategoryno(),
+            user.getSavename(),
+            user.getOrgname(),
+            user.getFilepath(),
+            user.getGrade(),             // 추가된 필드
+            user.getProvider()           // 추가된 필드
         );
     }
     

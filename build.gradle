@@ -35,6 +35,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// 구글 로그인에 필요한것들
+    implementation 'com.google.api-client:google-api-client:1.32.1'
+    implementation 'com.google.http-client:google-http-client-jackson2:1.32.1'
+    
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
 

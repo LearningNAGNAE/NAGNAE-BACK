@@ -66,5 +66,47 @@
 		LEFT JOIN TFILE tfile ON tuser.USER_NO = tfile.INSERT_USER_NO
         WHERE tuser.USER_NO = #{userno}
     </select>
+    
+    <insert id="createGoogleUser" parameterType="User" useGeneratedKeys="true" keyProperty="userno">
+        INSERT INTO TUSER (
+            USER_NAME,
+            GRADE, 
+            EMAIL, 
+            PASSWORD, 
+            NATIONLITY,
+            INSERT_DATE, 
+            MODIFY_DATE, 
+            USER_HP,
+            PROVIDER
+        ) VALUES (
+            #{username}, 
+            #{grade}, 
+            #{email}, 
+            #{password}, 
+            #{nationlity},
+            NOW(), 
+            NOW(), 
+            #{userhp},
+            #{provider}
+        )
+    </insert>
+    
+    <select id="selectUserById" parameterType="int" resultType="User">
+	    SELECT tuser.*,
+			   tfile.FILE_ORIGIN_NAME as 'orgname',
+		       tfile.FILE_SAVE_NAME as 'savename',
+		       tfile.FILE_PATH as 'filepath'
+		FROM TUSER tuser
+		LEFT JOIN TFILE tfile ON tuser.USER_NO = tfile.INSERT_USER_NO
+        WHERE tuser.USER_NO = #{userno}
+	</select>
+    
+    <select id="findByEmail" parameterType="string" resultType="User">
+    	SELECT * FROM TUSER WHERE EMAIL = #{email} LIMIT 1
+	</select>
+	
+	<select id="UserEmailInfo" parameterType="string" resultType="User">
+    	SELECT * FROM TUSER WHERE EMAIL = #{email} LIMIT 1
+	</select>
 
 </mapper>
