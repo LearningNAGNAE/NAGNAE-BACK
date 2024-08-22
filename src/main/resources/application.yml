@@ -12,9 +12,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/nagnae_db?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
-    username: nagnae
-    password: nagnae
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
 
   servlet:
     multipart:
