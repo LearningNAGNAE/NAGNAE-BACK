@@ -35,7 +35,7 @@ public class BoardController {
 	public ResponseEntity<ResponseMsg> BoardFreeWrite(@RequestBody BoardDto freeboardDto) {
 		System.out.println("BoardController.BoardFreeWrite()");
 		
-		freeboardDto.setCategoryno(2);
+		freeboardDto.setCategoryno(1);
 		freeboardDto.setViews(0);
 		int count = boardService.exeBoardFreeWrite(freeboardDto);
 		
@@ -47,7 +47,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/freeboardlist")
-	public ResponseEntity<ResponseMsg> BoardFreeList(@RequestParam(value = "categoryNo", defaultValue = "2") int categoryNo,
+	public ResponseEntity<ResponseMsg> BoardFreeList(@RequestParam(value = "categoryNo", defaultValue = "1") int categoryNo,
 	        @RequestParam(value = "page", defaultValue = "1") int page,
 	        @RequestParam(value = "size", defaultValue = "10") int size,
 	        @RequestParam(value = "search", defaultValue = "") String search) {
