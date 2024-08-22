@@ -14,7 +14,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${MYSQL_URL:jdbc:mysql://localhost:3306/nagnae_db?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8}
     username: ${MYSQL_USERNAME:nagnae}
-    password: ${MYSQL_PASSWORD:nagnae}
+    password: ${MYSQL_PASSWORD:nagnae!}
 
 
   servlet:
@@ -33,4 +33,12 @@ file:
   upload:
     windows: C:\Users\hi02\dev\upload\
     linux: /app/upload/
-    
+
+logging:
+  level:
+    com.learningman.nagnae.authorization.repository.UserRepository: TRACE
+    com.learningman.nagnae.board.repository.BoardMapper: TRACE
+    com.learningman.nagnae.chatbot.repository.ChatHistoryRepository: TRACE
+    com.learningman.nagnae.study.repository.StudyMapper: TRACE
+
+
