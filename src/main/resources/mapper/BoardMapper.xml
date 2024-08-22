@@ -5,13 +5,13 @@
 <mapper namespace="com.learningman.nagnae.board.repository.BoardMapper">
 	
     <insert id="freeWrite" parameterType="BoardDto">
-		insert into tboard
+		insert into TBOARD
 		values(null, #{categoryno}, #{title} , #{content} , #{summary}, #{views} , #{insertuserno} , now() , #{modifyuserno}, now() );
     </insert>
     
     <select id="freeList" parameterType="map" resultType="BoardListDto">
 		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
-        FROM tboard tb
+        FROM TBOARD tb
         JOIN tuser tu ON tb.INSERT_USER_NO = tu.USER_NO
         WHERE tb.CATEGORY_NO = #{categoryNo}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
@@ -21,8 +21,8 @@
 	
 	<select id="countPosts" parameterType="map" resultType="int">
         SELECT COUNT(*)
-        FROM tboard tb
-        JOIN tuser tu ON tb.INSERT_USER_NO = tu.USER_NO
+        FROM TBOARD tb
+        JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
         WHERE tb.CATEGORY_NO = #{categoryNo}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
     </select>
@@ -39,25 +39,25 @@
 		       tb.INSERT_DATE,
 		       tu.USER_NAME,
 		       tu.NATIONLITY
-		FROM tboard tb,tuser tu
+		FROM TBOARD tb,TUSER tu
 		WHERE tb.INSERT_USER_NO = tu.USER_NO
 		AND BOARD_NO = #{boardno}
     </select>
     
     <insert id="insertComment" parameterType="CommentDto" keyProperty="commentno" useGeneratedKeys="true">
-	    INSERT INTO tcomment
+	    INSERT INTO TCOMMENT
 	    (CONTENT, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
 	    VALUES (#{content}, #{commenterno}, now(), #{commenterno}, now());
 	</insert>
 	
 	<insert id="insertBoardComment" parameterType="CommentDto">
-	    INSERT INTO tboardcomment
+	    INSERT INTO TBOARDCOMMENT
 	    (BOARD_NO, COMMENT_NO, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
 	    VALUES (#{boardno}, #{commentno}, #{commenterno}, now(), #{commenterno}, now());
 	</insert>
 	
 	<select id="getCommentById" parameterType="Long" resultType="CommentDto">
-	    SELECT * FROM tcomment WHERE COMMENT_NO = #{commentno}
+	    SELECT * FROM TCOMMENT WHERE COMMENT_NO = #{commentno}
 	</select>
     
 </mapper>
