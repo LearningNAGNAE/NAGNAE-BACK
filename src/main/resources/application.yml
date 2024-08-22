@@ -14,7 +14,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${MYSQL_URL:jdbc:mysql://localhost:3306/nagnae_db?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8}
     username: ${MYSQL_USERNAME:nagnae}
-    password: ${MYSQL_PASSWORD:nagnae!}
+    password: ${MYSQL_PASSWORD:nagnae}
 
 
   servlet:
@@ -22,6 +22,13 @@ spring:
       enabled: true
       max-file-size: 50MB
       max-request-size: 50MB
+
+#  mvc:
+#    cors:
+#      allowed-origins: http://localhost:3000, http://localhost:8000, http://nagnae.site
+#      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+#      allowed-headers: "*"
+#      allow-credentials: true
 
 mybatis:
   type-aliases-package: com.learningman.nagnae.domain.dto, com.learningman.nagnae.authorization.dto, com.learningman.nagnae.authorization.model
@@ -40,5 +47,3 @@ logging:
     com.learningman.nagnae.board.repository.BoardMapper: TRACE
     com.learningman.nagnae.chatbot.repository.ChatHistoryRepository: TRACE
     com.learningman.nagnae.study.repository.StudyMapper: TRACE
-
-

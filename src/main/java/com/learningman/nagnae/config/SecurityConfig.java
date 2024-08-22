@@ -19,7 +19,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**") // 경로
 				.allowedMethods("GET", "POST", "PUT", "DELETE")
-				.allowedOrigins("http://localhost:3000", "http://localhost:8000", "http://nagnae.site")
+				.allowedOrigins("http://localhost:3000", "http://localhost:8000", "http://nagnae.site", "http://43.203.180.28")
 				.allowedHeaders("*") // 모든 요청해더
 				.exposedHeaders("Authorization")// 노출시킬 헤더
 				.allowCredentials(true); // 쿠키허용
