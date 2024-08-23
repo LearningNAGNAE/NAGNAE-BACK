@@ -35,6 +35,7 @@ public class WebSecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/users/sign-up", "/users/login", "/api/google-login").permitAll()
+                .requestMatchers("/study/**").permitAll() // 추가된 부분
                 .requestMatchers("/users/**").authenticated()
                 .anyRequest().authenticated()
             )

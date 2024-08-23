@@ -130,6 +130,9 @@ public class UserServiceImpl implements UserService {
     public void exeModifyAccount(UserDto modifyAccountDto, MultipartFile file) {
     	// 기존 사용자 정보 조회
         User existingUser = userRepository.InfoUser(modifyAccountDto.getEmail());
+        System.out.println("====================");
+        System.out.println(modifyAccountDto);
+        System.out.println("====================");
         
         // 비밀번호 처리
         if (modifyAccountDto.getPassword() == null || modifyAccountDto.getPassword().isEmpty()) {
