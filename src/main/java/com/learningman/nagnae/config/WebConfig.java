@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
-public class SecurityConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 	
     @Value("${file.upload.linux}")
     private String linuxUploadDir;
