@@ -85,9 +85,28 @@ public class BoardService {
         return boardmapper.boardcommentlist(boardno);
     }
 	
-	public int exeBoardDelete(BoardDto boardDto) {
+	public void exeBoardDelete(Long boardno) {
 		
-		return boardmapper.boarddelete(boardDto);
+		// 2. 해당 게시글의 모든 댓글 ID를 조회
+        List<Integer> commentNos = boardmapper.getCommentIdsByBoardNo(boardno);
+
+        // 3. 게시판 댓글 연결 정보 삭제
+        boardmapper.deleteBoardComments(boardno);
+
+        // 4. 조회한 댓글 ID를 이용해 실제 댓글 삭제
+        for (Integer commentno : commentNos) {
+        	boardmapper.deleteComment(boardno);
+        }
+
+        // 5. 게시글 삭제
+        boardmapper.deleteBoard(boardno);
+
 	}
 	
+	public int exeBoardViewUp(BoardDto boardDto) {
+		System.out.println("BoardService.exeBoardViewUp()");
+		
+		
+		return boardmapper.boardviewup(boardDto);
+	}
 }

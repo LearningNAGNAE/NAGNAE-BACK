@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,7 +87,7 @@ public class BoardController {
 	@GetMapping("/freeboardread")
     public ResponseEntity<ResponseMsg> BoardRead(@RequestParam("boardno") int boardno) {
 		System.out.println("BoardController.BoardRead()");
-//		System.out.println(boardno);
+		System.out.println(boardno);
 //        int boardno = Integer.parseInt(sboardno);
 		BoardReadDto boardwriteDto = boardService.exeBoardRead(boardno);
 		
@@ -118,12 +118,22 @@ public class BoardController {
 		return ResponseEntity.ok(ResponseMsg.success(commentDto));
     }
 	
-	@DeleteMapping("/freereaddelete")
-	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestBody BoardDto boardDto) {
-		System.out.println("BoardController.BoardReadDelte()");
+//	@DeleteMapping("/freereaddelete")
+//	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestParam("boardno") Long boardno) {
+//		System.out.println("BoardController.BoardReadDelte()");
+//		
+//		boardService.exeBoardDelete(boardno);
+//		
+//		return ResponseEntity.ok(ResponseMsg.success("성공"));
+//	}
+	
+	@PutMapping("/incrementViews")
+	public ResponseEntity<ResponseMsg> BoardViewsUp(@RequestBody BoardDto boardDto){
+		System.out.println("BoardController.BoardViewsUp()");
+		System.out.println(boardDto);
 		
-		int count = boardService.exeBoardDelete(boardDto);
+		int count = boardService.exeBoardViewUp(boardDto);
 		
-		return ResponseEntity.ok(ResponseMsg.success(count));
+		return ResponseEntity.ok(ResponseMsg.success(count));	
 	}
 }

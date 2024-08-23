@@ -72,9 +72,32 @@
 		WHERE tbc.BOARD_NO = #{boardno}
 	</select>
     
-    <delete id="boarddelete" parameterType="BoardDto">
+    <delete id="boarddelete" parameterType="Long">
 		delete from TBOARD
 		where BOARD_NO = #{boardno}
 	</delete>
+    
+    <select id="getCommentIdsByBoardNo" parameterType="Long" resultType="Long">
+        SELECT COMMENT_NO FROM TBOARDCOMMENT WHERE BOARD_NO = #{boardNo}
+    </select>
+
+    <delete id="deleteBoardComments" parameterType="Long">
+        DELETE FROM TBOARDCOMMENT WHERE BOARD_NO = #{boardNo}
+    </delete>
+
+    <delete id="deleteComment" parameterType="Long">
+        DELETE FROM TCOMMENT WHERE COMMENT_NO = #{commentId}
+    </delete>
+
+    <delete id="deleteBoard" parameterType="Long">
+        DELETE FROM TBOARD WHERE BOARD_NO = #{boardNo}
+    </delete>
+
+    
+    <update id="boardviewup" parameterType="BoardDto">
+		update TBOARD
+		set VIEWS = VIEWS+1
+		where BOARD_NO = #{boardno};
+	</update>
     
 </mapper>

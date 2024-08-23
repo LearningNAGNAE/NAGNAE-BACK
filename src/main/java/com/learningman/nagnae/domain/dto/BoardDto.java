@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BoardDto {
 
-	private int boardno;
+	private long boardno;
 	private int categoryno;
 	private String title;
 	private String content;
