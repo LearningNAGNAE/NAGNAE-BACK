@@ -34,11 +34,12 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/sign-up", "/users/login", "/api/google-login").permitAll()
-                .requestMatchers("/study/**").permitAll() // 추가된 부분
-                .requestMatchers("/board/**").permitAll() // 추가된 부분
-                .requestMatchers("/users/**").authenticated()
-                .anyRequest().authenticated()
+//                .requestMatchers("/users/sign-up", "/users/login", "/api/google-login").permitAll()
+//                .requestMatchers("/study/**").permitAll() // 추가된 부분
+//                .requestMatchers("/board/**").permitAll() // 추가된 부분
+//                .requestMatchers("/users/**").authenticated()
+//                .anyRequest().authenticated()
+            	.anyRequest().permitAll()  // 모든 요청 허용
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .cors(cors -> cors.configurationSource(corsConfigurationSource()));
