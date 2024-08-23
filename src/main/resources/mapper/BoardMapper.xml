@@ -71,4 +71,9 @@
 		WHERE tbc.BOARD_NO = #{boardno}
 	</select>
     
+    <delete id="boarddelete" parameterType="BoardDto">
+		delete from TBOARD
+		where BOARD_NO = #{boardno}
+	</delete>
+    
 </mapper>
