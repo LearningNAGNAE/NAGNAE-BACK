@@ -125,6 +125,23 @@ public class UserController {
 //        return null;
     }
     
+    // 이메일 중복체크
+    @PostMapping("/email-check")
+    public ResponseEntity<JsonResult> EmailCheck(@RequestBody UserDto email) {
+    	log.info("user.UserController.EmailCheck()");
+        try {
+        	boolean IdCheck = userService.userExists(email.getEmail());
+        	return ResponseEntity.ok(JsonResult.success(IdCheck));
+        } catch (Exception e) {
+			log.error("오류 발생", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(JsonResult.fail("서버 오류가 발생했습니다." + e.getMessage()));
+		}
+//    	return ResponseEntity.ok(JsonResult.success("회원정보 수정 성공"));
+        
+//        return null;
+    }
+    
     
     // 구글 로그인
     @PostMapping("/api/google-login")
