@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -115,4 +117,13 @@ public class BoardController {
 		
 		return ResponseEntity.ok(ResponseMsg.success(commentDto));
     }
+	
+	@DeleteMapping("/freereaddelete")
+	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestBody BoardDto boardDto) {
+		System.out.println("BoardController.BoardReadDelte()");
+		
+		int count = boardService.exeBoardDelete(boardDto);
+		
+		return ResponseEntity.ok(ResponseMsg.success(count));
+	}
 }

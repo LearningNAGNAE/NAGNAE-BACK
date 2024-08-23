@@ -11,4 +11,5 @@ public class BoardReadDto {
     private int views;
     private String userName;
     private String nationlity;
+    private String insertuserno;
 }

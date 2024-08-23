@@ -35,4 +35,6 @@ public interface BoardMapper {
     
     List<CommentDto> boardcommentlist(Long boardno);
 
+    int boarddelete(BoardDto boardDto);
+    
 }
