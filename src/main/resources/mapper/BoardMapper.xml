@@ -38,7 +38,8 @@
 		       tb.VIEWS,
 		       tb.INSERT_DATE,
 		       tu.USER_NAME,
-		       tu.NATIONLITY
+		       tu.NATIONLITY,
+		       tb.INSERT_USER_NO
 		FROM TBOARD tb,TUSER tu
 		WHERE tb.INSERT_USER_NO = tu.USER_NO
 		AND BOARD_NO = #{boardno}

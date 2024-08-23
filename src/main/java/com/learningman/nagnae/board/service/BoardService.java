@@ -85,4 +85,9 @@ public class BoardService {
         return boardmapper.boardcommentlist(boardno);
     }
 	
+	public int exeBoardDelete(BoardDto boardDto) {
+		
+		return boardmapper.boarddelete(boardDto);
+	}
+	
 }
