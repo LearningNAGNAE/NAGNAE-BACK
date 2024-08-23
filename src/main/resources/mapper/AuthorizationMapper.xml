@@ -10,7 +10,7 @@
 		       tfile.FILE_PATH as 'filepath'
 		FROM TUSER tuser
 		LEFT JOIN TFILE tfile ON tuser.USER_NO = tfile.INSERT_USER_NO
-        WHERE tuser.EMAIL = #{email} and tuser.PASSWORD = #{password}
+        WHERE tuser.EMAIL = #{email}
     </select>
     
     <insert id="SignUp" parameterType="UserDto">

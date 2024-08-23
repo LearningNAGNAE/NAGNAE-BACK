@@ -16,6 +16,7 @@ import com.learningman.nagnae.authorization.model.ProfileImgVo;
 import com.learningman.nagnae.authorization.model.User;
 import com.learningman.nagnae.authorization.repository.UserRepository;
 import com.learningman.nagnae.authorization.service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,20 +26,28 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
     private UserRepository userRepository;
+	
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     // 로그인
-    @Override
-    public UserResponseDto exeLogin(UserDto loginDto) {
-    	User authUser = userRepository.findByUserLogin(loginDto);
-//    	System.out.println(authUser);
-    	return convertToDto(authUser);
-    }
+	@Override
+	public UserResponseDto exeLogin(UserDto loginDto) {
+	    User authUser = userRepository.findByUserLogin(loginDto);
+	    if (authUser != null && passwordEncoder.matches(loginDto.getPassword(), authUser.getPassword())) {
+	        return convertToDto(authUser);
+	    }
+	    return null; // 로그인 실패 시 null 반환
+	}
 
     // 회원가입
     @Override
     public void exeSignUp(UserDto signUpDto, MultipartFile file) {
     	
-    	// 회원가입(사진X)
+    	// 비밀번호 암호화
+        signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        
+        // 회원가입(사진X)
         userRepository.SignUp(signUpDto);
         
         String SignUpUserEmail = signUpDto.getEmail();
@@ -119,9 +128,22 @@ public class UserServiceImpl implements UserService {
     // 회원수정
     @Override
     public void exeModifyAccount(UserDto modifyAccountDto, MultipartFile file) {
-//    	System.out.println(modifyAccountDto);
-//    	System.out.println(file);
-    	// 회원정보(사진X)
+    	// 기존 사용자 정보 조회
+        User existingUser = userRepository.InfoUser(modifyAccountDto.getEmail());
+        System.out.println("====================");
+        System.out.println(modifyAccountDto);
+        System.out.println("====================");
+        
+        // 비밀번호 처리
+        if (modifyAccountDto.getPassword() == null || modifyAccountDto.getPassword().isEmpty()) {
+            // 비밀번호가 null이거나 빈 문자열이면 기존 비밀번호 사용
+            modifyAccountDto.setPassword(existingUser.getPassword());
+        } else {
+            // 새 비밀번호가 제공된 경우 암호화
+            modifyAccountDto.setPassword(passwordEncoder.encode(modifyAccountDto.getPassword()));
+        }
+
+        // 회원정보 업데이트 (사진 제외)
         userRepository.ModifyAccount(modifyAccountDto);
         
         String ModifyAccountEmail = modifyAccountDto.getEmail();
@@ -230,11 +252,12 @@ public class UserServiceImpl implements UserService {
         newUser.setUsername(name);
         newUser.setGrade("일반");  // 또는 Google 사용자에 대한 특정 등급
         newUser.setEmail(email);
-        newUser.setPassword(""); // Google 로그인이므로 비밀번호 불필요, 하지만 NOT NULL 제약조건 때문에 빈 문자열 입력
+        newUser.setPassword(passwordEncoder.encode("defaultPassword")); // Google 로그인이므로 비밀번호 불필요, 하지만 NOT NULL 제약조건 때문에 빈 문자열 입력
         newUser.setNationlity(""); // 기본값 설정 필요
         newUser.setFileno(0);
         newUser.setUserhp(""); // Google에서 전화번호를 제공하지 않으므로 빈 문자열 또는 null 설정
         newUser.setProvider("GOOGLE");
+        newUser.setPassword(passwordEncoder.encode(UUID.randomUUID().toString())); // 랜덤한 비밀번호 생성
         userRepository.createGoogleUser(newUser);
         
         User insertedUser = userRepository.selectUserById(newUser.getUserno());
@@ -285,7 +308,7 @@ public class UserServiceImpl implements UserService {
             user.getUserno(),
             user.getUsername(),
             user.getEmail(),
-            user.getPassword(),
+            null, // 비밀번호는 응답에 포함하지 않음
             user.getNationlity(),        // 수정된 순서
             user.isActiveyn(),           // 추가된 필드
             user.isWithdrawyn(),         // 추가된 필드
