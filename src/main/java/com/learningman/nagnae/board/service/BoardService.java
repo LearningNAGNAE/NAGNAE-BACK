@@ -137,20 +137,26 @@ public class BoardService {
     }
 	
 	public void exeBoardDelete(Long boardno) {
-		
-		// 2. 해당 게시글의 모든 댓글 ID를 조회
-        List<Integer> commentNos = boardmapper.getCommentIdsByBoardNo(boardno);
+		System.out.println("BoardService.exeBoardDelete()");
 
-        // 3. 게시판 댓글 연결 정보 삭제
-        boardmapper.deleteBoardComments(boardno);
+	    // 게시물에 관련된 파일들 삭제
+	    List<Integer> fileNos = boardmapper.getFileByBoardNo(boardno);
+	    boardmapper.deleteBoardFile(boardno);
+	    for (Integer fileNo : fileNos) {
+	        boardmapper.deleteFile(fileNo);
+	    }
+	    
 
-        // 4. 조회한 댓글 ID를 이용해 실제 댓글 삭제
-        for (Integer commentno : commentNos) {
-        	boardmapper.deleteComment(boardno);
-        }
+	    // 게시물에 관련된 댓글들 삭제
+	    List<Integer> commentNos = boardmapper.getCommentIdsByBoardNo(boardno);
+	    boardmapper.deleteBoardComments(boardno);
+	    for (Integer commentNo : commentNos) {
+	        boardmapper.deleteComment(commentNo);
+	    }
+	    
 
-        // 5. 게시글 삭제
-        boardmapper.deleteBoard(boardno);
+	    // 게시물 자체 삭제
+	    boardmapper.deleteBoard(boardno);
 
 	}
 	
