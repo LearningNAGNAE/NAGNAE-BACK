@@ -4,10 +4,24 @@
 
 <mapper namespace="com.learningman.nagnae.board.repository.BoardMapper">
 	
-    <insert id="freeWrite" parameterType="BoardDto">
-		insert into TBOARD
-		values(null, #{categoryno}, #{title} , #{content} , #{summary}, #{views} , #{insertuserno} , now() , #{modifyuserno}, now() );
+    <insert id="freeWrite" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="boardno">
+        INSERT INTO TBOARD (CATEGORY_NO, TITLE, CONTENT, SUMMARY, VIEWS, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
+        VALUES (#{categoryno}, #{title}, #{content}, #{summary}, #{views}, #{insertuserno}, NOW(), #{modifyuserno}, NOW())
     </insert>
+    
+	<insert id="insertBoardFile" parameterType="BoardFileDto">
+	    INSERT INTO TBOARDFILE (BOARD_NO, FILE_NO, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
+	    VALUES (#{boardNo}, #{fileNo}, #{insertUserNo}, NOW(), #{modifyUserNo}, NOW())
+	</insert>
+    
+	<insert id="insertFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileNo">
+	    INSERT INTO TFILE (CATEGORY_NO, CATEGORY_SUB_NO, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_PATH, DESCRIPTION, INSERT_USER_NO, INSERT_DATE, MODIFY_USER_NO, MODIFY_DATE)
+	    VALUES (#{categoryNo}, null, #{fileOriginName}, #{fileSaveName}, #{filePath}, null, #{insertUserNo}, NOW(), #{modifyUserNo}, NOW())
+	</insert>
+	
+	<select id="getFileByFileName" parameterType="string" resultType="FileDto">
+	    SELECT * FROM TFILE WHERE FILE_SAVE_NAME = #{fileName}
+	</select>
     
     <select id="freeList" parameterType="map" resultType="BoardListDto">
 		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
@@ -26,11 +40,6 @@
         WHERE tb.CATEGORY_NO = #{categoryNo}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
     </select>
-    
-    <insert id="insertFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileNo">
-      INSERT INTO TFILE (CATEGORY_NO, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_PATH, INSERT_DATE, MODIFY_DATE)
-      VALUES (#{categoryNo}, #{fileOriginName}, #{fileSaveName}, #{filePath}, NOW(), NOW())
-    </insert>
     
     <select id="selectBoardread" resultType="BoardReadDto">
         SELECT tb.CONTENT,
@@ -75,5 +84,7 @@
 		delete from TBOARD
 		where BOARD_NO = #{boardno}
 	</delete>
+	
+
     
 </mapper>

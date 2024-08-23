@@ -10,6 +10,7 @@ import com.learningman.nagnae.domain.dto.BoardListDto;
 import com.learningman.nagnae.domain.dto.BoardReadDto;
 import com.learningman.nagnae.domain.dto.CommentDto;
 import com.learningman.nagnae.domain.dto.FileDto;
+import com.learningman.nagnae.domain.dto.BoardFileDto;
 
 @Mapper
 public interface BoardMapper {
@@ -34,5 +35,8 @@ public interface BoardMapper {
     CommentDto getCommentById(Long commentno);
     
     List<CommentDto> boardcommentlist(Long boardno);
+    
+    int insertBoardFile(BoardFileDto boardFileDto);
 
+    FileDto getFileByFileName(String fileName);
 }
