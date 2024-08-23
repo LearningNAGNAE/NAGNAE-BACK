@@ -9,5 +9,6 @@ public class StudyImageDto {
     private String fileOriginName;
     private String fileSaveName;
     private String filePath;
+    private String description;
 
 }
