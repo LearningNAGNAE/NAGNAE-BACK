@@ -22,6 +22,7 @@
              , F.FILE_ORIGIN_NAME
              , F.FILE_SAVE_NAME
              , F.FILE_PATH
+             , F.DESCRIPTION
         FROM TFILE F
         WHERE CATEGORY_NO = 5
           AND CATEGORY_SUB_NO = #{categorySubNo}
