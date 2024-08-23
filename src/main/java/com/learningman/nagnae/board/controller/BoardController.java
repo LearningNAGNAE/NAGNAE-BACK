@@ -56,7 +56,7 @@ public class BoardController {
 	    try {
 	        int userNo;
 	        if (stringUserNo == null || stringUserNo.isEmpty() || stringUserNo.equals("undefined")) {
-	            userNo = 2; // Default value
+	            userNo = 36; // Default value
 	            System.out.println("Default userNo: " + userNo);
 	        } else {
 	            userNo = Integer.parseInt(stringUserNo);
@@ -146,14 +146,14 @@ public class BoardController {
 		return ResponseEntity.ok(ResponseMsg.success(commentDto));
     }
 	
-//	@DeleteMapping("/freereaddelete")
-//	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestParam("boardno") Long boardno) {
-//		System.out.println("BoardController.BoardReadDelte()");
-//		
-//		boardService.exeBoardDelete(boardno);
-//		
-//		return ResponseEntity.ok(ResponseMsg.success("성공"));
-//	}
+	@DeleteMapping("/freereaddelete")
+	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestParam("boardno") Long boardno) {
+		System.out.println("BoardController.BoardReadDelte()");
+		
+		boardService.exeBoardDelete(boardno);
+		
+		return ResponseEntity.ok(ResponseMsg.success("성공"));
+	}
 	
 	@PutMapping("/incrementViews")
 	public ResponseEntity<ResponseMsg> BoardViewsUp(@RequestBody BoardDto boardDto){

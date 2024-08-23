@@ -38,12 +38,17 @@ public interface BoardMapper {
     
     int insertBoardFile(BoardFileDto boardFileDto);
 
+    List<Integer> getFileByBoardNo(Long boardno);
+
+    void deleteBoardFile(Long boardno);
+
+    void deleteFile(int fileNo);
 
     List<Integer> getCommentIdsByBoardNo(Long boardno);
 
     void deleteBoardComments(Long boardno);
 
-    void deleteComment(Long commentno);
+    void deleteComment(int commentNo);
 
     void deleteBoard(Long boardno);
 
