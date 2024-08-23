@@ -32,5 +32,7 @@ public interface BoardMapper {
     int insertBoardComment(CommentDto commentDto);
     
     CommentDto getCommentById(Long commentno);
+    
+    List<CommentDto> boardcommentlist(Long boardno);
 
 }

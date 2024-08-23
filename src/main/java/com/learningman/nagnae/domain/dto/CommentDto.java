@@ -7,8 +7,9 @@ public class CommentDto {
 	
 	private Long commentno;
     private Long boardno;
-    private String commenter;
+    private String username;
     private String content;
     private int commenterno;
+    private String filesavename;
 
 }

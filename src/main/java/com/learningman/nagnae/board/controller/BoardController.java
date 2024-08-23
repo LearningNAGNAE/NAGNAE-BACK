@@ -105,4 +105,14 @@ public class BoardController {
         
         return ResponseEntity.ok(ResponseMsg.success(count));
     }
+	
+	@GetMapping("/freeboardcommentlist")
+    public ResponseEntity<ResponseMsg> CommentList(@RequestParam("boardno") Long boardno) {
+		System.out.println("BoardController.CommentList()");
+//		System.out.println(boardno);
+//        int boardno = Integer.parseInt(sboardno);
+		List<CommentDto> commentDto = boardService.exeboardcommentlist(boardno);
+		
+		return ResponseEntity.ok(ResponseMsg.success(commentDto));
+    }
 }

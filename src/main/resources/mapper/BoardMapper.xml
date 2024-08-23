@@ -12,7 +12,7 @@
     <select id="freeList" parameterType="map" resultType="BoardListDto">
 		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
         FROM TBOARD tb
-        JOIN tuser tu ON tb.INSERT_USER_NO = tu.USER_NO
+        JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
         WHERE tb.CATEGORY_NO = #{categoryNo}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
         ORDER BY tb.BOARD_NO DESC
@@ -58,6 +58,17 @@
 	
 	<select id="getCommentById" parameterType="Long" resultType="CommentDto">
 	    SELECT * FROM TCOMMENT WHERE COMMENT_NO = #{commentno}
+	</select>
+    
+    <select id="boardcommentlist" parameterType="Long" resultType="CommentDto">
+	    SELECT tu.USER_NAME,
+		       tc.CONTENT,
+		       tf.FILE_SAVE_NAME
+		FROM TBOARDCOMMENT tbc
+		JOIN TUSER tu ON tbc.INSERT_USER_NO = tu.USER_NO
+		JOIN TCOMMENT tc ON tbc.COMMENT_NO = tc.COMMENT_NO
+		LEFT JOIN TFILE tf ON tu.File_NO = tf.File_NO
+		WHERE tbc.BOARD_NO = #{boardno}
 	</select>
     
 </mapper>

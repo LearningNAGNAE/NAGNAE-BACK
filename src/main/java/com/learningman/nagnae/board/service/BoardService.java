@@ -72,4 +72,9 @@ public class BoardService {
         return count;
     }
 	
+	public List<CommentDto> exeboardcommentlist(Long boardno) {
+
+        return boardmapper.boardcommentlist(boardno);
+    }
+	
 }
