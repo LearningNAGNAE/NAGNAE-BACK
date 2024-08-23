@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.learningman.nagnae.board.repository.BoardMapper;
 import com.learningman.nagnae.common.FileService;
 import com.learningman.nagnae.domain.dto.BoardDto;
+import com.learningman.nagnae.domain.dto.FileDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
 import com.learningman.nagnae.domain.dto.BoardReadDto;
 import com.learningman.nagnae.domain.dto.CommentDto;
@@ -48,9 +49,16 @@ public class BoardService {
         int totalPosts = boardmapper.countPosts(categoryNo,search);
         return (int) Math.ceil((double) totalPosts / pageSize);
     }
-	
-	public String saveImageAndGetUrl(MultipartFile file) throws IOException {
-		return fileService.saveImageAndGetUrl(file);
+
+    public String saveImageAndGetUrl(MultipartFile file) throws IOException {
+        String imageUrl = fileService.saveImageAndGetUrl(file);
+        FileDto fileDto = new FileDto();
+        fileDto.setCategoryNo(1); // 적절한 카테고리 번호 설정
+        fileDto.setFileOriginName(file.getOriginalFilename());
+        fileDto.setFileSaveName(imageUrl.substring(imageUrl.lastIndexOf('/') + 1));
+        fileDto.setFilePath(imageUrl);
+        boardmapper.insertFile(fileDto);
+        return imageUrl;
     }
 	
 	public BoardReadDto exeBoardRead(int boardno) {
