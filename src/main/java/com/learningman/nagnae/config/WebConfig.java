@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${file.upload.windows}")
     private String windowsUploadDir;
+    
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -35,6 +36,6 @@ public class WebConfig implements WebMvcConfigurer {
 	    String uploadDir = System.getProperty("os.name").toLowerCase().contains("win") 
 	        ? windowsUploadDir : linuxUploadDir;
 	    registry.addResourceHandler("/upload/**")
-	            .addResourceLocations("file:" + uploadDir);
+        		.addResourceLocations("file:" + uploadDir + "/");
 	}
 }

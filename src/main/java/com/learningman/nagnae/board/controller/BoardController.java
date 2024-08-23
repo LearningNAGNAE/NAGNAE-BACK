@@ -22,6 +22,7 @@ import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
 import com.learningman.nagnae.domain.dto.BoardReadDto;
 import com.learningman.nagnae.domain.dto.CommentDto;
+import com.learningman.nagnae.domain.dto.FileDto;
 import com.learningman.nagnae.domain.response.ResponseMsg;
 
 import lombok.RequiredArgsConstructor;
@@ -34,19 +35,56 @@ public class BoardController {
 	private final BoardService boardService;
 
 	@PostMapping("/freeboardwrite")
-	public ResponseEntity<ResponseMsg> BoardFreeWrite(@RequestBody BoardDto freeboardDto) {
-		System.out.println("BoardController.BoardFreeWrite()");
-		
-		freeboardDto.setCategoryno(1);
-		freeboardDto.setViews(0);
-		int count = boardService.exeBoardFreeWrite(freeboardDto);
-		
-		if(count == 0) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		return ResponseEntity.ok(ResponseMsg.success(count));
+	public ResponseEntity<ResponseMsg> BoardFreeWrite(@RequestBody BoardDto freeboardDto, 
+	                                                  @RequestParam(value = "files", required = false) List<MultipartFile> files) {
+	    System.out.println("BoardController.BoardFreeWrite()");
+	    
+	    freeboardDto.setCategoryno(1);
+	    freeboardDto.setViews(0);
+	    int count = boardService.exeBoardFreeWrite(freeboardDto);
+	    
+	    if(count == 0) {
+	        return ResponseEntity.notFound().build();
+	    }
+	    
+	    return ResponseEntity.ok(ResponseMsg.success(count));
 	}
+	
+	@PostMapping("/upload-image")
+	public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file, 
+	                                     @RequestParam(value = "userNo", required = false) String stringUserNo) {
+	    try {
+	        int userNo;
+	        if (stringUserNo == null || stringUserNo.isEmpty() || stringUserNo.equals("undefined")) {
+	            userNo = 2; // Default value
+	            System.out.println("Default userNo: " + userNo);
+	        } else {
+	            userNo = Integer.parseInt(stringUserNo);
+	            System.out.println("UserNo: " + userNo);
+	        }
+	        
+	        String imageUrl = boardService.saveImageAndGetUrl(file);
+
+	        FileDto fileDto = new FileDto();
+	        fileDto.setCategoryNo(1);
+	        fileDto.setFileOriginName(file.getOriginalFilename());
+	        fileDto.setFileSaveName(imageUrl.substring(imageUrl.lastIndexOf('/') + 1));
+	        fileDto.setFilePath(imageUrl);
+	        fileDto.setInsertUserNo(userNo);
+	        fileDto.setModifyUserNo(userNo);
+	        boardService.insertFile(fileDto);
+
+	        return ResponseEntity.ok(Collections.singletonMap("imageUrl", imageUrl));
+	    } catch (NumberFormatException e) {
+	        return ResponseEntity.badRequest().body("Invalid userNo format");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body(Collections.singletonMap("error", e.getMessage()));
+	    }
+	}
+
+
 	
 	@GetMapping("/freeboardlist")
 	public ResponseEntity<ResponseMsg> BoardFreeList(@RequestParam(value = "categoryNo", defaultValue = "1") int categoryNo,
@@ -71,17 +109,7 @@ public class BoardController {
 		return ResponseEntity.ok(ResponseMsg.success(response));
 	}
 	
-	@PostMapping("/upload-image")
-	public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) {
-	    try {
-	        String imageUrl = boardService.saveImageAndGetUrl(file);
-	        return ResponseEntity.ok(Collections.singletonMap("imageUrl", imageUrl));
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                             .body(Collections.singletonMap("error", e.getMessage()));
-	    }
-	}
+
 	
 	
 	@GetMapping("/freeboardread")
