@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.learningman.nagnae.authorization.util.JwtUtil;
 import com.learningman.nagnae.board.service.BoardService;
 import com.learningman.nagnae.domain.dto.BoardDto;
 import com.learningman.nagnae.domain.dto.BoardListDto;
@@ -25,6 +26,7 @@ import com.learningman.nagnae.domain.dto.CommentDto;
 import com.learningman.nagnae.domain.dto.FileDto;
 import com.learningman.nagnae.domain.response.ResponseMsg;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -35,38 +37,30 @@ public class BoardController {
 	private final BoardService boardService;
 
 	//---------------------------Write ------------------------------
-	//커뮤니티 게시글 작성
+	//게시글 작성
 	@PostMapping("/freeboardwrite")
 	public ResponseEntity<ResponseMsg> BoardFreeWrite(@RequestBody BoardDto freeboardDto, 
-	                                                  @RequestParam(value = "files", required = false) List<MultipartFile> files) {
+	                                                  @RequestParam(value = "files", required = false) List<MultipartFile> files,
+	                                                  HttpServletRequest request) {
 	    System.out.println("BoardController.BoardFreeWrite()");
 	    
-	    freeboardDto.setCategoryno(1);
-	    freeboardDto.setViews(0);
-	    int count = boardService.exeBoardFreeWrite(freeboardDto);
 	    
-	    if(count == 0) {
-	        return ResponseEntity.notFound().build();
+	    
+	    int no = JwtUtil.getNoFromHeader(request);
+	    
+	    if (no != -1) {
+	    	freeboardDto.setViews(0);
+		    int count = boardService.exeBoardFreeWrite(freeboardDto);
+	    	if(count == 0) {
+		        return ResponseEntity.notFound().build();
+		    }
+		    
+		    return ResponseEntity.ok(ResponseMsg.success(count));
+	    }else {
+	    	
+	    	return ResponseEntity.ok(ResponseMsg.fail("실패"));
 	    }
-	    
-	    return ResponseEntity.ok(ResponseMsg.success(count));
-	}
-	
-	//공지사항 게시글 작성
-	@PostMapping("/annboardwrite")
-	public ResponseEntity<ResponseMsg> BoardAnnWrite(@RequestBody BoardDto freeboardDto, 
-	                                                  @RequestParam(value = "files", required = false) List<MultipartFile> files) {
-	    System.out.println("BoardController.BoardFreeWrite()");
-	    
-	    freeboardDto.setCategoryno(2);
-	    freeboardDto.setViews(0);
-	    int count = boardService.exeBoardFreeWrite(freeboardDto);
-	    
-	    if(count == 0) {
-	        return ResponseEntity.notFound().build();
-	    }
-	    
-	    return ResponseEntity.ok(ResponseMsg.success(count));
+	   
 	}
 	
 	//게시글 작성 -- 이미지 업로드
@@ -195,12 +189,22 @@ public class BoardController {
 	
 	//--------------------------- Delete ------------------------------
 	@DeleteMapping("/freereaddelete")
-	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestParam("boardno") Long boardno) {
+	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestParam("boardno") Long boardno,
+													  HttpServletRequest request) {
 		System.out.println("BoardController.BoardReadDelte()");
 		
-		boardService.exeBoardDelete(boardno);
+		int no = JwtUtil.getNoFromHeader(request);
 		
-		return ResponseEntity.ok(ResponseMsg.success("성공"));
+		if (no != -1) {
+
+			boardService.exeBoardDelete(boardno);
+			
+			return ResponseEntity.ok(ResponseMsg.success("성공"));
+		}else {
+			
+			return ResponseEntity.ok(ResponseMsg.fail("실패"));
+		}
+		
 	}
 	
 	//--------------------------- Hits ------------------------------
