@@ -27,7 +27,7 @@
 		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
         FROM TBOARD tb
         LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
-        WHERE tb.CATEGORY_NO = #{categoryNo}
+        WHERE tb.CATEGORY_NO = #{categoryno}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
         ORDER BY tb.BOARD_NO DESC
         LIMIT #{size} OFFSET #{offset}
@@ -37,7 +37,7 @@
         SELECT COUNT(*)
         FROM TBOARD tb
         LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
-        WHERE tb.CATEGORY_NO = #{categoryNo}
+        WHERE tb.CATEGORY_NO = #{categoryno}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
     </select>
     
@@ -114,5 +114,21 @@
 		set VIEWS = VIEWS+1
 		where BOARD_NO = #{boardno};
 	</update>
+	
+	<select id="mainList" parameterType="map" resultType="BoardListDto">
+		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
+        FROM TBOARD tb
+        LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryNo}
+        ORDER BY tb.BOARD_NO DESC
+        LIMIT #{size}
+	</select>
+	
+	<select id="countMainList" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM TBOARD tb
+        LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryno}
+    </select>
     
 </mapper>

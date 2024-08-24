@@ -84,12 +84,12 @@ public class BoardService {
     }
     
 	
-	public List<BoardListDto> exeBoardFreeList(int categoryNo, int page, int size, String search) {
+	public List<BoardListDto> exeBoardFreeList(int categoryno, int page, int size, String search) {
 		System.out.println("BoardService.exeBoardFreeList()");
 		
 		int offset = (page - 1) * size;
 		
-        return boardmapper.freeList(categoryNo, size, offset, search);
+        return boardmapper.freeList(categoryno, size, offset, search);
 	}
 	
 	public int getTotalPosts(int categoryNo, String search) {
@@ -166,4 +166,13 @@ public class BoardService {
 		
 		return boardmapper.boardviewup(boardDto);
 	}
+	
+	public List<BoardListDto> exeMainList(int categoryno,int size) {
+
+        return boardmapper.mainList(categoryno,size);
+    }
+	
+	public int getTotalboardMain(int categoryno) {
+        return boardmapper.countMainList(categoryno);
+    }
 }

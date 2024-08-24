@@ -17,12 +17,12 @@ public interface BoardMapper {
 
 	int freeWrite(BoardDto freeboardDto);
 	
-	List<BoardListDto> freeList(@Param("categoryNo") int categoryNo,
+	List<BoardListDto> freeList(@Param("categoryno") int categoryno,
             @Param("size") int size,
             @Param("offset") int offset,
             @Param("search") String search);
 
-	int countPosts(@Param("categoryNo") int categoryNo, @Param("search") String search);
+	int countPosts(@Param("categoryno") int categoryno, @Param("search") String search);
 	
 	int insertFile(FileDto fileDto);
 	
@@ -55,5 +55,10 @@ public interface BoardMapper {
     int boardviewup(BoardDto boardDto);
 
     FileDto getFileByFileName(String fileName);
+    
+    List<BoardListDto> mainList(@Param("categoryNo") int categoryNo,
+            							 @Param("size") int size);
+    
+    int countMainList(@Param("categoryno") int categoryno);
 
 }

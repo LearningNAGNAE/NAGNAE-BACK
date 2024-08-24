@@ -87,18 +87,18 @@ public class BoardController {
 
 	
 	@GetMapping("/freeboardlist")
-	public ResponseEntity<ResponseMsg> BoardFreeList(@RequestParam(value = "categoryNo", defaultValue = "1") int categoryNo,
-	        @RequestParam(value = "page", defaultValue = "1") int page,
-	        @RequestParam(value = "size", defaultValue = "10") int size,
-	        @RequestParam(value = "search", defaultValue = "") String search) {
+	public ResponseEntity<ResponseMsg> BoardFreeList(@RequestParam(value = "categoryno", defaultValue = "1") int categoryno,
+											         @RequestParam(value = "page", defaultValue = "1") int page,
+											         @RequestParam(value = "size", defaultValue = "10") int size,
+											         @RequestParam(value = "search", defaultValue = "") String search) {
 		System.out.println("BoardController.BoardFreeList()");
 		
 		page = Math.max(page, 1);
 		
-		List<BoardListDto> boardList = boardService.exeBoardFreeList(categoryNo, page, size, search);
+		List<BoardListDto> boardList = boardService.exeBoardFreeList(categoryno, page, size, search);
 		
-		int totalPosts = boardService.getTotalPosts(categoryNo, search); 
-		int totalPages = boardService.getTotalPages(categoryNo, size, search);
+		int totalPosts = boardService.getTotalPosts(categoryno, search); 
+		int totalPages = boardService.getTotalPages(categoryno, size, search);
 		
 		Map<String, Object> response = new HashMap<>();
 	    response.put("boardList", boardList);
@@ -164,4 +164,36 @@ public class BoardController {
 		
 		return ResponseEntity.ok(ResponseMsg.success(count));	
 	}
+	
+	@GetMapping("/announcements6")
+    public ResponseEntity<ResponseMsg> MainAnnouncements(@RequestParam(value = "categoryno", defaultValue = "2") int categoryno,
+    												 	 @RequestParam(value = "size", defaultValue = "6") int size) {
+		System.out.println("BoardController.MainAnnouncements()");
+
+		List<BoardListDto> boardList = boardService.exeMainList(categoryno,size);
+		
+		int totalMainAnnouncements = boardService.getTotalboardMain(categoryno);
+		
+		Map<String, Object> response = new HashMap<>();
+	    response.put("boardList", boardList);
+	    response.put("totalMainCount", totalMainAnnouncements);
+		
+		return ResponseEntity.ok(ResponseMsg.success(response));
+    }
+	
+	@GetMapping("/community6")
+    public ResponseEntity<ResponseMsg> MainCommunity(@RequestParam(value = "categoryno", defaultValue = "1") int categoryno,
+    												 @RequestParam(value = "size", defaultValue = "6") int size) {
+		System.out.println("BoardController.MainCommunity()");
+
+		List<BoardListDto> boardList = boardService.exeMainList(categoryno,size);
+		
+		int totalMainCommunity = boardService.getTotalboardMain(categoryno);
+		
+		Map<String, Object> response = new HashMap<>();
+	    response.put("boardList", boardList);
+	    response.put("totalMainCount", totalMainCommunity);
+		
+		return ResponseEntity.ok(ResponseMsg.success(response));
+    }
 }
