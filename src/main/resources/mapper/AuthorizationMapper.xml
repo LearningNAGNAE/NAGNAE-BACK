@@ -13,10 +13,18 @@
         WHERE tuser.EMAIL = #{email}
     </select>
     
-    <insert id="SignUp" parameterType="UserDto">
-        INSERT INTO TUSER (USER_NO, USER_NAME, GRADE, EMAIL, PASSWORD, NATIONLITY, USER_HP, INSERT_DATE, MODIFY_DATE)
-		VALUES (null, #{username}, '일반', #{email}, #{password}, #{nationlity}, #{userhp}, NOW(), NOW())
-    </insert>
+    <insert id="SignUp" parameterType="UserDto" useGeneratedKeys="true" keyProperty="userno">
+	    <![CDATA[
+	    INSERT INTO TUSER (USER_NAME, GRADE, EMAIL, PASSWORD, NATIONLITY, USER_HP, INSERT_DATE, MODIFY_DATE)
+	    VALUES (#{username}, '일반', #{email}, #{password}, #{nationlity}, #{userhp}, NOW(), NOW());
+	    ]]>
+	</insert>
+	
+	<update id="updateUserNoAfterSignUp" parameterType="int">
+	    UPDATE TUSER
+	    SET INSERT_USER_NO = #{userno}, MODIFY_USER_NO = #{userno}
+	    WHERE USER_NO = #{userno}
+	</update>
 
 	<select id="InfoUser" parameterType="String" resultType="User">
         SELECT * FROM TUSER WHERE EMAIL = #{signUpUserEmail}

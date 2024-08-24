@@ -17,6 +17,8 @@ public interface UserRepository {
     User findByUserLogin(UserDto loginDto);
     // 회원가입(사진x)
     void SignUp(UserDto signUpDto);
+    void updateUserNoAfterSignUp(int userno);
+    
     // 회원가입유저 정보
     User InfoUser(String signUpUserEmail);
     // 프로필사진 등록
