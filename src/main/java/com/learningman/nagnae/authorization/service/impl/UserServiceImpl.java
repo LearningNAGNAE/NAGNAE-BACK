@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	            saveDir = "/app/upload";
 	        } else {
 	            log.info("Operating system: Windows");
-	            saveDir = "C:\\Users\\hi02\\dev\\NAGNAE\\NAGNAE-FRONT\\src\\assets\\images\\img";
+	            saveDir = "C:\\Users\\hi02\\dev\\NAGNAE\\NAGNAE-FRONT\\src\\assets\\images\\profile";
 	        }
 	
 	        String orgName = file.getOriginalFilename();
