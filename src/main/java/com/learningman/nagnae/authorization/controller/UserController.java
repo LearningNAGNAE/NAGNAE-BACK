@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -13,6 +14,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learningman.nagnae.authorization.dto.EmailDto;
 import com.learningman.nagnae.authorization.dto.GoogleAuthResponseDto;
 import com.learningman.nagnae.authorization.dto.GoogleTokenRequestDto;
 import com.learningman.nagnae.authorization.dto.UserDto;
@@ -37,6 +39,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
 
 	// 로그인
 	@PostMapping("/login")
@@ -212,9 +215,21 @@ public class UserController {
         }
     }
     
+    // 아이디 찾기
+    @PostMapping("/send-email-id")
+    public String sendEmailId(@RequestBody EmailDto emailDto) {
+    	userService.FindId(emailDto);
+    	
+        return "Email sent successfully";
+    }
     
-    
-    
+    // 비밀번호 찾기
+    @PostMapping("/send-email-pw")
+    public String sendEmailPw(@RequestBody EmailDto emailDto) {
+    	userService.FindPw(emailDto);
+    	
+        return "Email sent successfully";
+    }
     
     
     

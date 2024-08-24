@@ -116,5 +116,34 @@
 	<select id="UserEmailInfo" parameterType="string" resultType="User">
     	SELECT * FROM TUSER WHERE EMAIL = #{email} LIMIT 1
 	</select>
+	
+	
+	<select id="FindIdUserInfo" parameterType="EmailDto" resultType="User">
+    	SELECT * FROM TUSER WHERE USER_HP = #{userhp} AND USER_NAME = #{username}
+	</select>
+	
+	<select id="FindPwUserInfo" parameterType="EmailDto" resultType="User">
+    	SELECT * FROM TUSER WHERE USER_HP = #{userhp} AND USER_NAME = #{username} AND EMAIL = #{userid}
+	</select>
+	
+	
+	<update id="FindUserPwUpdate" parameterType="User">
+	    UPDATE TUSER
+		SET PASSWORD = #{password}
+		WHERE EMAIL = #{email};
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

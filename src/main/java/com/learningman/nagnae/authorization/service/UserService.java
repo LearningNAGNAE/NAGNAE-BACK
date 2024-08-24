@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.learningman.nagnae.authorization.dto.EmailDto;
 import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
 import com.learningman.nagnae.authorization.model.User;
@@ -32,5 +33,9 @@ public interface UserService {
     UserDto createUserResponseDto(User user);
     
     User UserEmailInfo(String email);
+    
+    void FindId(EmailDto emailDto);
+    
+    void FindPw(EmailDto emailDto);
     
 }

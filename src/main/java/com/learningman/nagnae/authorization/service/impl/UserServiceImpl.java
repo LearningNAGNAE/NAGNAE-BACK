@@ -6,9 +6,12 @@ import java.util.UUID;
 import java.io.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.learningman.nagnae.authorization.dto.EmailDto;
 import com.learningman.nagnae.authorization.dto.ProfileImgDto;
 import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.dto.UserResponseDto;
@@ -26,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
     private UserRepository userRepository;
+	
+	@Autowired
+    private JavaMailSender emailSender;
 	
 	@Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -125,8 +131,6 @@ public class UserServiceImpl implements UserService {
         
     }
 
-    // 회원정보수정
-    
     // 회원수정
     @Override
     public void exeModifyAccount(UserDto modifyAccountDto, MultipartFile file) {
@@ -288,11 +292,56 @@ public class UserServiceImpl implements UserService {
     	return userRepository.UserEmailInfo(email);
     }
     
+    // 아이디 찾기
+    @Override
+    public void FindId(EmailDto emailDto) {
+    	
+    	User findIdUserInfo = userRepository.FindIdUserInfo(emailDto);
+    	
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(emailDto.getTo());
+        message.setSubject(emailDto.getSubject());
+        message.setText("You ID : " + findIdUserInfo.getEmail());
+        emailSender.send(message);
+        
+    }
     
-    
-    
-    
-    
+    // 비밀번호 찾기(임시비밀번호 메일로 보냄)
+    @Override
+    public void FindPw(EmailDto emailDto) {
+    	User findPwUserInfo = userRepository.FindPwUserInfo(emailDto);
+    	
+    	// 임시 비밀번호 생성(랜덤)
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        StringBuilder tempPwBuilder = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            int idx = (int) (charSet.length * Math.random());
+            tempPwBuilder.append(charSet[idx]);
+        }
+    	
+        // StringBuilder를 String으로 변환
+        String tempPw = tempPwBuilder.toString();
+        
+        findPwUserInfo.setPassword(tempPw);
+        
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(emailDto.getTo());
+        message.setSubject(emailDto.getSubject());
+        message.setText("You PW : " + tempPw);
+        emailSender.send(message);
+        
+        // 비밀밀번호 엔코딩 및 변경
+        findPwUserInfo.setPassword(passwordEncoder.encode(findPwUserInfo.getPassword()));
+        
+        
+        userRepository.FindUserPwUpdate(findPwUserInfo);
+        
+        
+        
+    }
     
     
     

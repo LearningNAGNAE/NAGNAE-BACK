@@ -1,5 +1,6 @@
 package com.learningman.nagnae.authorization.repository;
 
+import com.learningman.nagnae.authorization.dto.EmailDto;
 import com.learningman.nagnae.authorization.dto.ProfileImgDto;
 import com.learningman.nagnae.authorization.dto.UserDto;
 import com.learningman.nagnae.authorization.model.ProfileImgVo;
@@ -43,5 +44,11 @@ public interface UserRepository {
     User selectUserById(int userno);
     
     User UserEmailInfo(String email);
+    
+    User FindIdUserInfo(EmailDto emailDto);
+    
+    User FindPwUserInfo(EmailDto emailDto);
+    
+    void FindUserPwUpdate(User findPwUserInfo);
     
 }
