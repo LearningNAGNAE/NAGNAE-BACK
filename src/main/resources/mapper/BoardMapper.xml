@@ -26,8 +26,8 @@
     <select id="freeList" parameterType="map" resultType="BoardListDto">
 		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
         FROM TBOARD tb
-        JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
-        WHERE tb.CATEGORY_NO = #{categoryNo}
+        LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryno}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
         ORDER BY tb.BOARD_NO DESC
         LIMIT #{size} OFFSET #{offset}
@@ -36,8 +36,8 @@
 	<select id="countPosts" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM TBOARD tb
-        JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
-        WHERE tb.CATEGORY_NO = #{categoryNo}
+        LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryno}
         AND (#{search} IS NULL OR tb.TITLE LIKE CONCAT('%', #{search}, '%'))
     </select>
     
@@ -81,34 +81,54 @@
 		WHERE tbc.BOARD_NO = #{boardno}
 	</select>
     
-    <delete id="boarddelete" parameterType="Long">
-		delete from TBOARD
-		where BOARD_NO = #{boardno}
+    <select id="getFileByBoardNo" parameterType="Long" resultType="Integer">
+	    SELECT FILE_NO FROM TBOARDFILE WHERE BOARD_NO = #{boardno}
+	</select>
+	
+	<delete id="deleteBoardFile" parameterType="Long">
+	    DELETE FROM TBOARDFILE WHERE BOARD_NO = #{boardno}
 	</delete>
 	
-
-    
-    <select id="getCommentIdsByBoardNo" parameterType="Long" resultType="Long">
-        SELECT COMMENT_NO FROM TBOARDCOMMENT WHERE BOARD_NO = #{boardNo}
-    </select>
-
-    <delete id="deleteBoardComments" parameterType="Long">
-        DELETE FROM TBOARDCOMMENT WHERE BOARD_NO = #{boardNo}
-    </delete>
-
-    <delete id="deleteComment" parameterType="Long">
-        DELETE FROM TCOMMENT WHERE COMMENT_NO = #{commentId}
-    </delete>
-
-    <delete id="deleteBoard" parameterType="Long">
-        DELETE FROM TBOARD WHERE BOARD_NO = #{boardNo}
-    </delete>
-
+	<delete id="deleteFile" parameterType="int">
+	    DELETE FROM TFILE WHERE FILE_NO = #{fileNo}
+	</delete>
+	
+	<select id="getCommentIdsByBoardNo" parameterType="Long" resultType="Integer">
+	    SELECT COMMENT_NO FROM TBOARDCOMMENT WHERE BOARD_NO = #{boardno}
+	</select>
+	
+	<delete id="deleteBoardComments" parameterType="Long">
+	    DELETE FROM TBOARDCOMMENT WHERE BOARD_NO = #{boardno}
+	</delete>
+	
+	<delete id="deleteComment" parameterType="int">
+	    DELETE FROM TCOMMENT WHERE COMMENT_NO = #{commentNo}
+	</delete>
+	
+	<delete id="deleteBoard" parameterType="Long">
+	    DELETE FROM TBOARD WHERE BOARD_NO = #{boardno}
+	</delete>
     
     <update id="boardviewup" parameterType="BoardDto">
 		update TBOARD
 		set VIEWS = VIEWS+1
 		where BOARD_NO = #{boardno};
 	</update>
+	
+	<select id="mainList" parameterType="map" resultType="BoardListDto">
+		SELECT tb.BOARD_NO, tb.TITLE, tb.INSERT_DATE, tb.VIEWS, tu.USER_NAME
+        FROM TBOARD tb
+        LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryNo}
+        ORDER BY tb.BOARD_NO DESC
+        LIMIT #{size}
+	</select>
+	
+	<select id="countMainList" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM TBOARD tb
+        LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
+        WHERE tb.CATEGORY_NO = #{categoryno}
+    </select>
     
 </mapper>

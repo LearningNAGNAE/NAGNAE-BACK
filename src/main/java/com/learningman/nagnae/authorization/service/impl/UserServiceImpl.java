@@ -48,7 +48,9 @@ public class UserServiceImpl implements UserService {
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         
         // 회원가입(사진X)
+        
         userRepository.SignUp(signUpDto);
+        userRepository.updateUserNoAfterSignUp(signUpDto.getUserno());
         
         String SignUpUserEmail = signUpDto.getEmail();
         
