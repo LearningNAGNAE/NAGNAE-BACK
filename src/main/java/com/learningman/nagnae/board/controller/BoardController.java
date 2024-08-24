@@ -38,7 +38,7 @@ public class BoardController {
 
 	//---------------------------Write ------------------------------
 	//게시글 작성
-	@PostMapping("/freeboardwrite")
+	@PostMapping("/boardwrite")
 	public ResponseEntity<ResponseMsg> BoardFreeWrite(@RequestBody BoardDto freeboardDto, 
 	                                                  @RequestParam(value = "files", required = false) List<MultipartFile> files,
 	                                                  HttpServletRequest request) {
@@ -152,7 +152,7 @@ public class BoardController {
 	
 	//---------------------------Read ------------------------------
 	// 커뮤니티 읽어오기
-	@GetMapping("/freeboardread")
+	@GetMapping("/boardread")
     public ResponseEntity<ResponseMsg> BoardRead(@RequestParam("boardno") int boardno) {
 		System.out.println("BoardController.BoardRead()");
 		System.out.println(boardno);
@@ -162,22 +162,29 @@ public class BoardController {
 		return ResponseEntity.ok(ResponseMsg.success(boardwriteDto));
     }
 	// 커뮤니티 댓글 작성
-	@PostMapping("/freeboardcommentwrite")
-    public ResponseEntity<ResponseMsg> BoardFreeCommentWrite(@RequestBody CommentDto commentDto) {
+	@PostMapping("/boardcommentwrite")
+    public ResponseEntity<ResponseMsg> BoardFreeCommentWrite(@RequestBody CommentDto commentDto,
+			  												 HttpServletRequest request) {
         System.out.println("BoardController.BoardFreeCommentWrite()");
-        System.out.println(commentDto);
-        // 댓글을 삽입하고 게시물과 연결합니다.
-        int count = boardService.exeBoardFreeCommentWrite(commentDto);
+
+        int no = JwtUtil.getNoFromHeader(request);
         
-        if (count == 0) {
-            return ResponseEntity.notFound().build();
+        
+        if (no != -1) {
+        	int count = boardService.exeBoardFreeCommentWrite(commentDto);
+        	if (count == 0) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            return ResponseEntity.ok(ResponseMsg.success(count));
+        }else {
+        	return ResponseEntity.ok(ResponseMsg.fail("실패"));
         }
         
-        return ResponseEntity.ok(ResponseMsg.success(count));
     }
 	
 	// 커뮤니티 댓글 리스트
-	@GetMapping("/freeboardcommentlist")
+	@GetMapping("/boardcommentlist")
     public ResponseEntity<ResponseMsg> CommentList(@RequestParam("boardno") Long boardno) {
 		System.out.println("BoardController.CommentList()");
 //		System.out.println(boardno);
@@ -188,7 +195,7 @@ public class BoardController {
     }
 	
 	//--------------------------- Delete ------------------------------
-	@DeleteMapping("/freereaddelete")
+	@DeleteMapping("/readdelete")
 	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestParam("boardno") Long boardno,
 													  HttpServletRequest request) {
 		System.out.println("BoardController.BoardReadDelte()");
