@@ -136,6 +136,11 @@ public class BoardService {
         return boardmapper.boardcommentlist(boardno);
     }
 	
+	
+	public int exeBoardUpdate(BoardDto boardDto) {
+		return boardmapper.boardupdate(boardDto);
+	}
+	
 	public void exeBoardDelete(Long boardno) {
 		System.out.println("BoardService.exeBoardDelete()");
 
@@ -161,9 +166,6 @@ public class BoardService {
 	}
 	
 	public int exeBoardViewUp(BoardDto boardDto) {
-		System.out.println("BoardService.exeBoardViewUp()");
-		
-		
 		return boardmapper.boardviewup(boardDto);
 	}
 	

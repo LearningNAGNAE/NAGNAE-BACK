@@ -39,6 +39,8 @@ public interface BoardMapper {
     int insertBoardFile(BoardFileDto boardFileDto);
 
     List<Integer> getFileByBoardNo(Long boardno);
+    
+    int boardupdate(BoardDto boardDto);     //업데이트
 
     void deleteBoardFile(Long boardno);
 

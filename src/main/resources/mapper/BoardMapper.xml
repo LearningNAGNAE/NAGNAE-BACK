@@ -80,6 +80,14 @@
 		LEFT JOIN TFILE tf ON tu.File_NO = tf.File_NO
 		WHERE tbc.BOARD_NO = #{boardno}
 	</select>
+	
+	 <update id="boardupdate"  parameterType="BoardDto">
+		update TBOARD
+		set TITLE = #{title},
+		     CONTENT = #{content},
+		     SUMMARY = null
+		where BOARD_NO = #{boardno}
+	</update>
     
     <select id="getFileByBoardNo" parameterType="Long" resultType="Integer">
 	    SELECT FILE_NO FROM TBOARDFILE WHERE BOARD_NO = #{boardno}

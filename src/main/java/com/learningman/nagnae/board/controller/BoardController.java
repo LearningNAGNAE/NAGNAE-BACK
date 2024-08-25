@@ -161,6 +161,7 @@ public class BoardController {
 		
 		return ResponseEntity.ok(ResponseMsg.success(boardwriteDto));
     }
+	
 	// 커뮤니티 댓글 작성
 	@PostMapping("/boardcommentwrite")
     public ResponseEntity<ResponseMsg> BoardFreeCommentWrite(@RequestBody CommentDto commentDto,
@@ -193,6 +194,18 @@ public class BoardController {
 		
 		return ResponseEntity.ok(ResponseMsg.success(commentDto));
     }
+	
+	//--------------------------- Modify ------------------------------
+	@PutMapping("/boardupdate")
+	public ResponseEntity<ResponseMsg> BoardUpdate(@RequestBody BoardDto boardDto){
+		System.out.println("BoardController.BoardUpdate()");
+		System.out.println(boardDto);
+		
+		int count = boardService.exeBoardUpdate(boardDto);
+		
+		return ResponseEntity.ok(ResponseMsg.success(count));	
+	}
+	
 	
 	//--------------------------- Delete ------------------------------
 	@DeleteMapping("/readdelete")
