@@ -86,6 +86,7 @@
 		set TITLE = #{title},
 		     CONTENT = #{content},
 		     SUMMARY = null
+		     MODIFY_DATE = now()
 		where BOARD_NO = #{boardno}
 	</update>
     

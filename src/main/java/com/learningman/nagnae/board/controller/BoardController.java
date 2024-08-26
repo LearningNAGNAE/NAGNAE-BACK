@@ -70,7 +70,7 @@ public class BoardController {
 	    try {
 	        int userNo;
 	        if (stringUserNo == null || stringUserNo.isEmpty() || stringUserNo.equals("undefined")) {
-	            userNo = 36; // Default value
+	            userNo = 37; // Default value
 	            System.out.println("Default userNo: " + userNo);
 	        } else {
 	            userNo = Integer.parseInt(stringUserNo);
