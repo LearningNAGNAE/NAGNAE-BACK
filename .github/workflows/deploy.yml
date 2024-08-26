@@ -22,7 +22,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Build with Gradle
-      run: .\gradlew clean build
+      run: ./gradlew clean build
 
     - name: Build Docker image
       run: docker build . -t hyunsujung3679/nagnae-spring-20240823-1:latest
