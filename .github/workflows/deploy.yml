@@ -59,7 +59,7 @@ jobs:
           sudo docker rm nagnae-spring-20240823-1 || true
           sudo docker run -d \
             --name nagnae-spring-20240823-1 \
-            -p 9001:9000 \
+            -p 9000:9000 \
             -v /home/ubuntu/upload:/app/upload \
             -e MYSQL_URL="jdbc:mysql://nagnae-1.c1waa6wu6dvf.ap-northeast-2.rds.amazonaws.com:3306/nagnae_db?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8" \
             -e MYSQL_USERNAME="admin" \
