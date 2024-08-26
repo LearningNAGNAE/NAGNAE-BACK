@@ -56,9 +56,7 @@ public class WebSecurityConfig {
             "http://nagnae.site", 
             "https://nagnae.site", 
             "http://www.nagnae.site", 
-            "https://www.nagnae.site",
-            "http://3.34.127.243",
-            "https://3.34.127.243"
+            "https://www.nagnae.site"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);

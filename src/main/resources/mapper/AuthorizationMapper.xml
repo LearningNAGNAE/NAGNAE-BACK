@@ -9,7 +9,7 @@
 		       tfile.FILE_SAVE_NAME as 'savename',
 		       tfile.FILE_PATH as 'filepath'
 		FROM TUSER tuser
-		LEFT JOIN TFILE tfile ON tuser.USER_NO = tfile.INSERT_USER_NO
+		LEFT JOIN TFILE tfile ON tuser.FILE_NO = tfile.FILE_NO
         WHERE tuser.EMAIL = #{email}
     </select>
     

@@ -19,6 +19,8 @@ import com.learningman.nagnae.authorization.model.ProfileImgVo;
 import com.learningman.nagnae.authorization.model.User;
 import com.learningman.nagnae.authorization.repository.UserRepository;
 import com.learningman.nagnae.authorization.service.UserService;
+import com.learningman.nagnae.authorization.util.FileService;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
+	
+	@Autowired
+	private FileService fileService;
 
 	@Autowired
     private UserRepository userRepository;
@@ -47,193 +52,116 @@ public class UserServiceImpl implements UserService {
 	}
 
     // 회원가입
-    @Override
-    public void exeSignUp(UserDto signUpDto, MultipartFile file) {
-    	
-    	// 비밀번호 암호화
-        signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-        
-        // 회원가입(사진X)
-        
-        userRepository.SignUp(signUpDto);
-        userRepository.updateUserNoAfterSignUp(signUpDto.getUserno());
-        
-        String SignUpUserEmail = signUpDto.getEmail();
-        
-        User userInfo= userRepository.InfoUser(SignUpUserEmail);
-        
-        int SignUpUserNo = userInfo.getUserno();
-        
-        // 사진 등록 및 회원가입 유저 사진번호 수정
-        if(file != null) {
-        	
-        
-	        // getOsSpecificSaveDir 로직
-	        String osName = System.getProperty("os.name").toLowerCase();
-	        String saveDir;
-	        if (osName.contains("linux")) {
-	            log.info("Operating system: Linux");
-	            saveDir = "/app/upload";
-	        } else {
-	            log.info("Operating system: Windows");
-	            saveDir = "C:\\Users\\hi02\\dev\\NAGNAE\\NAGNAE-FRONT\\src\\assets\\images\\profile";
-	        }
-	
-	        String orgName = file.getOriginalFilename();
-	
-	        // getFileExtension 로직
-	        String exName = orgName.substring(orgName.lastIndexOf("."));
-	
-	        // generateSaveName 로직
-	        String saveName = System.currentTimeMillis() + UUID.randomUUID().toString() + exName;
-	
-	        long fileSize = file.getSize();
-	        String filePath = saveDir + File.separator + saveName;
-	
-	        log.info("File details - orgName: {}, exName: {}, saveName: {}, fileSize: {}, filePath: {}",
-	                orgName, exName, saveName, fileSize, filePath);
-	
-	        ProfileImgVo profileImgVo = ProfileImgVo.builder()
-	        	    .fileno(0)
-	        	    .categoryno(1)
-	        	    .savename(saveName)
-	        	    .orgname(orgName)
-	        	    .filepath(filePath)
-	//        	    .filesize(fileSize)
-	        	    .insertuserno(SignUpUserNo)
-	        	    .insertdate(null)
-	        	    .modifyuserno(SignUpUserNo)
-	        	    .modifydate(null)
-	        	    .build();
-	        
-	        log.info("ProfileImgVo: {}", profileImgVo);
-	
-	        userRepository.profileImg(profileImgVo);
-	
-	        // saveFile 로직
-	        try (OutputStream os = new FileOutputStream(filePath);
-	             BufferedOutputStream bos = new BufferedOutputStream(os)) {
-	            bos.write(file.getBytes());
+	@Override
+	public void exeSignUp(UserDto signUpDto, MultipartFile file) {
+	    // 비밀번호 암호화
+	    signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+
+	    // 회원가입(사진X)
+	    userRepository.SignUp(signUpDto);
+	    userRepository.updateUserNoAfterSignUp(signUpDto.getUserno());
+
+	    String SignUpUserEmail = signUpDto.getEmail();
+	    User userInfo = userRepository.InfoUser(SignUpUserEmail);
+	    int SignUpUserNo = userInfo.getUserno();
+
+	    // 사진 등록 및 회원가입 유저 사진번호 수정
+	    if (file != null && !file.isEmpty()) {
+	        try {
+	            String fileUrl = fileService.saveImageAndGetUrl(file);
+	            
+	            ProfileImgVo profileImgVo = ProfileImgVo.builder()
+	                .fileno(0)
+	                .categoryno(1)
+	                .savename(fileUrl.substring(fileUrl.lastIndexOf("/") + 1))
+	                .orgname(file.getOriginalFilename())
+	                .filepath(fileUrl)
+	                .insertuserno(SignUpUserNo)
+	                .insertdate(null)
+	                .modifyuserno(SignUpUserNo)
+	                .modifydate(null)
+	                .build();
+
+	            log.info("ProfileImgVo: {}", profileImgVo);
+
+	            userRepository.profileImg(profileImgVo);
+
+	            ProfileImgDto ProfileFile = userRepository.InfoFile(SignUpUserNo);
+	            int SignUpFileNo = ProfileFile.getFileno();
+
+	            userInfo.setFileno(SignUpFileNo);
+	            userRepository.userFileNoUpdate(userInfo);
+
 	        } catch (IOException e) {
-	            log.error("Error saving file: {}", e.getMessage(), e);
-	            throw new RuntimeException("파일 저장 중 오류 발생", e);
+	            log.error("Error saving profile image: {}", e.getMessage(), e);
+	            throw new RuntimeException("프로필 이미지 저장 중 오류 발생", e);
 	        }
-	        
-	        ProfileImgDto ProfileFile= userRepository.InfoFile(SignUpUserNo);
-	        
-	        int SignUpFileNo = ProfileFile.getFileno();
-	        
-	        userInfo.setFileno(SignUpFileNo);
-	        
-	        userRepository.userFileNoUpdate(userInfo);
-        
-        }
-        
-    }
+	    }
+	}
 
     // 회원수정
-    @Override
-    public void exeModifyAccount(UserDto modifyAccountDto, MultipartFile file) {
-    	// 기존 사용자 정보 조회
-        User existingUser = userRepository.InfoUser(modifyAccountDto.getEmail());
-        System.out.println("====================");
-        System.out.println(modifyAccountDto);
-        System.out.println("====================");
-        
-        // 비밀번호 처리
-        if (modifyAccountDto.getPassword() == null || modifyAccountDto.getPassword().isEmpty()) {
-            // 비밀번호가 null이거나 빈 문자열이면 기존 비밀번호 사용
-            modifyAccountDto.setPassword(existingUser.getPassword());
-        } else {
-            // 새 비밀번호가 제공된 경우 암호화
-            modifyAccountDto.setPassword(passwordEncoder.encode(modifyAccountDto.getPassword()));
-        }
+	@Override
+	public void exeModifyAccount(UserDto modifyAccountDto, MultipartFile file) {
+	    // 기존 사용자 정보 조회
+	    User existingUser = userRepository.InfoUser(modifyAccountDto.getEmail());
+	    System.out.println("====================");
+	    System.out.println(modifyAccountDto);
+	    System.out.println("====================");
 
-        // 회원정보 업데이트 (사진 제외)
-        userRepository.ModifyAccount(modifyAccountDto);
-        
-        String ModifyAccountEmail = modifyAccountDto.getEmail();
-        
-        User userInfo= userRepository.InfoUser(ModifyAccountEmail);
-        
-        int ModifyAccountNo = userInfo.getUserno();
-        
-        // 사진 등록 및 회원수정 유저 사진번호 수정
-        if(file != null) {
-        	
-        	// 기존 유저 사진 번호 null번경
-        	userRepository.UserImgNoNull(ModifyAccountNo);
-        	
-        	// 기존 유저 원래 사진 삭제
-	        userRepository.UserFileDelete(ModifyAccountNo);
-        	
-	        // getOsSpecificSaveDir 로직
-	        String osName = System.getProperty("os.name").toLowerCase();
-	        String saveDir;
-	        if (osName.contains("linux")) {
-	            log.info("Operating system: Linux");
-	            saveDir = "/app/upload";
-	        } else {
-	            log.info("Operating system: Windows");
-	            saveDir = "C:\\Users\\hi02\\dev\\NAGNAE\\NAGNAE-FRONT\\src\\assets\\images\\profile";
-	        }
-	
-	        String orgName = file.getOriginalFilename();
-	
-	        // getFileExtension 로직
-	        String exName = orgName.substring(orgName.lastIndexOf("."));
-	
-	        // generateSaveName 로직
-	        String saveName = System.currentTimeMillis() + UUID.randomUUID().toString() + exName;
-	
-	        long fileSize = file.getSize();
-	        String filePath = saveDir + File.separator + saveName;
-	
-	        log.info("File details - orgName: {}, exName: {}, saveName: {}, fileSize: {}, filePath: {}",
-	                orgName, exName, saveName, fileSize, filePath);
-	
-	        ProfileImgVo profileImgVo = ProfileImgVo.builder()
-	        	    .fileno(0)
-	        	    .categoryno(1)
-	        	    .savename(saveName)
-	        	    .orgname(orgName)
-	        	    .filepath(filePath)
-	//        	    .filesize(fileSize)
-	        	    .insertuserno(ModifyAccountNo)
-	        	    .insertdate(null)
-	        	    .modifyuserno(ModifyAccountNo)
-	        	    .modifydate(null)
-	        	    .build();
-	        
-	        log.info("ProfileImgVo: {}", profileImgVo);
-	
-	        userRepository.profileImg(profileImgVo);
-	
-	        // saveFile 로직
-	        try (OutputStream os = new FileOutputStream(filePath);
-	             BufferedOutputStream bos = new BufferedOutputStream(os)) {
-	            bos.write(file.getBytes());
+	    // 비밀번호 처리
+	    if (modifyAccountDto.getPassword() == null || modifyAccountDto.getPassword().isEmpty()) {
+	        modifyAccountDto.setPassword(existingUser.getPassword());
+	    } else {
+	        modifyAccountDto.setPassword(passwordEncoder.encode(modifyAccountDto.getPassword()));
+	    }
+
+	    // 회원정보 업데이트 (사진 제외)
+	    userRepository.ModifyAccount(modifyAccountDto);
+
+	    String ModifyAccountEmail = modifyAccountDto.getEmail();
+	    User userInfo = userRepository.InfoUser(ModifyAccountEmail);
+	    int ModifyAccountNo = userInfo.getUserno();
+
+	    // 사진 등록 및 회원수정 유저 사진번호 수정
+	    if (file != null && !file.isEmpty()) {
+	        try {
+	            // 기존 유저 사진 번호 null로 변경
+	            userRepository.UserImgNoNull(ModifyAccountNo);
+
+	            // 기존 유저 원래 사진 삭제
+	            userRepository.UserFileDelete(ModifyAccountNo);
+
+	            // FileService를 사용하여 파일 저장
+	            String fileUrl = fileService.saveImageAndGetUrl(file);
+
+	            ProfileImgVo profileImgVo = ProfileImgVo.builder()
+	                .fileno(0)
+	                .categoryno(1)
+	                .savename(fileUrl.substring(fileUrl.lastIndexOf("/") + 1))
+	                .orgname(file.getOriginalFilename())
+	                .filepath(fileUrl)
+	                .insertuserno(ModifyAccountNo)
+	                .insertdate(null)
+	                .modifyuserno(ModifyAccountNo)
+	                .modifydate(null)
+	                .build();
+
+	            log.info("ProfileImgVo: {}", profileImgVo);
+
+	            userRepository.profileImg(profileImgVo);
+
+	            ProfileImgDto ProfileFile = userRepository.InfoFile(ModifyAccountNo);
+	            int ModifyAccountFileNo = ProfileFile.getFileno();
+
+	            userInfo.setFileno(ModifyAccountFileNo);
+	            userRepository.userFileNoUpdate(userInfo);
+
 	        } catch (IOException e) {
-	            log.error("Error saving file: {}", e.getMessage(), e);
-	            throw new RuntimeException("파일 저장 중 오류 발생", e);
+	            log.error("Error saving profile image: {}", e.getMessage(), e);
+	            throw new RuntimeException("프로필 이미지 저장 중 오류 발생", e);
 	        }
-	        
-	        ProfileImgDto ProfileFile= userRepository.InfoFile(ModifyAccountNo);
-	        
-	        int ModifyAccountFileNo = ProfileFile.getFileno();
-	        
-	        
-	        
-	        userInfo.setFileno(ModifyAccountFileNo);
-	        
-	        userRepository.userFileNoUpdate(userInfo);
-	        
-	        
-        
-        }
-        
-        
-    }
+	    }
+	}
     
     // 로그인한 회원의 정보
     @Override
