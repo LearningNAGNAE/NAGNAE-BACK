@@ -177,4 +177,10 @@ public class BoardService {
 	public int getTotalboardMain(int categoryno) {
         return boardmapper.countMainList(categoryno);
     }
+	
+	public void exeCommentDelete (int commentno) {
+		boardmapper.deleteBoardComment(commentno);
+		boardmapper.deleteComment(commentno);
+	}
+	
 }

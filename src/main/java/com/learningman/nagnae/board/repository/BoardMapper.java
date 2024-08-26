@@ -62,5 +62,7 @@ public interface BoardMapper {
             							 @Param("size") int size);
     
     int countMainList(@Param("categoryno") int categoryno);
+    
+    void deleteBoardComment(int commentno);
 
 }
