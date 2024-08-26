@@ -50,6 +50,7 @@ public class FileService {
         return "/upload/" + fileName;
     }
 
+    
     private String saveFile(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String filename = UUID.randomUUID().toString() + getFileExtension(originalFilename);
