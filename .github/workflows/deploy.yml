@@ -55,8 +55,8 @@ jobs:
         script: |
           sudo mkdir -p /home/ubuntu/upload
           sudo docker pull hyunsujung3679/nagnae-spring-20240823-1:latest
-          sudo docker stop nagnae-spring-20240823 || true
-          sudo docker rm nagnae-spring-20240823 || true
+          sudo docker stop nagnae-spring-20240823-1 || true
+          sudo docker rm nagnae-spring-20240823-1 || true
           sudo docker run -d \
             --name nagnae-spring-20240823-1 \
             -p 9000:9000 \
