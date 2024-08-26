@@ -1,11 +1,5 @@
 name: Deploy nagnae App
 
-
-#on:
-#  workflow_dispatch:
-#    inputs:
-
-
 on:
   push:
     branches:
@@ -15,46 +9,48 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-      - name: Build with Maven
-        run: mvn clean package
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
 
-      - name: Build Docker image
-        run: docker build . -t hyunsujung3679/nagnae-spring-20240823-1:latest
+    - name: Build with Gradle
+      run: ./gradlew build
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+    - name: Build Docker image
+      run: docker build . -t hyunsujung3679/nagnae-spring-20240823-1:latest
 
-      - name: Push Docker image to Docker Hub
-        run: docker push hyunsujung3679/nagnae-spring-20240823-1:latest
-        
-        
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Push Docker image to Docker Hub
+      run: docker push hyunsujung3679/nagnae-spring-20240823-1:latest
+
   SSH:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: ssh to ec2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            sudo mkdir -p /home/ec2-user/upload
-            sudo docker pull hyunsujung3679/nagnae-spring-20240823-1:latest
-            sudo docker stop nagnae || true
-            sudo docker rm nagnae || true
-            sudo docker run -d \
-              --name nagnae \
-              -p 9000:9000 \
-              -v /home/ec2-user/upload:/app/upload \
-              hyunsujung3679/nagnae-spring-20240823-1:latest
+    - uses: actions/checkout@v3
+    - name: ssh to ec2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          mkdir -p /home/ubuntu/upload
+          docker pull hyunsujung3679/nagnae-spring-20240823-1:latest
+          docker stop nagnae || true
+          docker rm nagnae || true
+          docker run -d \
+            --name nagnae \
+            -p 9000:9000 \
+            -v /home/ubuntu/upload:/app/upload \
+            hyunsujung3679/nagnae-spring-20240823-1:latest
