@@ -43,7 +43,6 @@ public class FileService {
         	logger.error("Failed to create upload directory: {}", e.getMessage());
         }
     }
-    
 
     public String saveImageAndGetUrl(MultipartFile file) throws IOException {
         String fileName = saveFile(file);
