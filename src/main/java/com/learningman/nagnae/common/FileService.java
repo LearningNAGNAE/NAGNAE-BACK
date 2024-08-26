@@ -9,9 +9,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class FileService {
+	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
     @Value("${file.upload.windows}")
     private String windowsUploadDir;
@@ -23,6 +26,7 @@ public class FileService {
 
     @PostConstruct
     public void init() {
+    	logger.info("Initializing FileService");
         String osName = System.getProperty("os.name").toLowerCase();
         System.out.println("Detected OS: " + osName);
         uploadDir = osName.contains("win") ? windowsUploadDir : linuxUploadDir;
@@ -34,9 +38,9 @@ public class FileService {
         try {
             Path directory = Paths.get(uploadDir);
             Files.createDirectories(directory);
-            System.out.println("Upload directory created: " + directory.toAbsolutePath());
+            logger.info("Upload directory created: {}", directory.toAbsolutePath());
         } catch (IOException e) {
-            throw new RuntimeException("Could not create upload directory!", e);
+        	logger.error("Failed to create upload directory: {}", e.getMessage());
         }
     }
 
