@@ -19,7 +19,7 @@ import com.learningman.nagnae.authorization.model.ProfileImgVo;
 import com.learningman.nagnae.authorization.model.User;
 import com.learningman.nagnae.authorization.repository.UserRepository;
 import com.learningman.nagnae.authorization.service.UserService;
-import com.learningman.nagnae.authorization.util.FileService;
+import com.learningman.nagnae.common.FileService;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

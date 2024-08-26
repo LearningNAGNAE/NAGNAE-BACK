@@ -51,7 +51,7 @@ mybatis:
 
 file:
   upload:
-    windows: C:\Users\hi02\dev\upload\
+    windows: C:\Users\hi02\dev\NAGNAE\NAGNAE-FRONT\src\assets\images\upload\
     linux: /app/upload/
 
 logging:
