@@ -1,5 +1,10 @@
 name: Deploy nagnae App
 
+# 수동으로 푸시할려면 주석풀고 깃허브에 올려서 깃허브에서 올리세요
+#on:
+#  workflow_dispatch:
+#    inputs:
+
 on:
   push:
     branches:
@@ -50,8 +55,8 @@ jobs:
         script: |
           sudo mkdir -p /home/ubuntu/upload
           sudo docker pull hyunsujung3679/nagnae-spring-20240823-1:latest
-          sudo docker stop nagnae || true
-          sudo docker rm nagnae || true
+          sudo docker stop nagnae-spring-20240823 || true
+          sudo docker rm nagnae-spring-20240823 || true
           sudo docker run -d \
             --name nagnae \
             -p 9000:9000 \
