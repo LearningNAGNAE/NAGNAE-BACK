@@ -59,6 +59,6 @@ jobs:
           sudo docker rm nagnae-spring-20240823-1 || true
           sudo docker run -d \
             --name nagnae-spring-20240823-1 \
-            -p 9000:9000 \
+            -p 9001:9000 \
             -v /home/ubuntu/upload:/app/upload \
             hyunsujung3679/nagnae-spring-20240823-1:latest
