@@ -45,10 +45,11 @@
         SELECT tb.CONTENT,
 			   tb.TITLE,
 		       tb.VIEWS,
-		       tb.INSERT_DATE,
+		       tb.MODIFY_DATE,
 		       tu.USER_NAME,
 		       tu.NATIONLITY,
-		       tb.INSERT_USER_NO
+		       tb.INSERT_USER_NO,
+		       tb.SUMMARY
 		FROM TBOARD tb,TUSER tu
 		WHERE tb.INSERT_USER_NO = tu.USER_NO
 		AND BOARD_NO = #{boardno}
@@ -73,7 +74,8 @@
     <select id="boardcommentlist" parameterType="Long" resultType="CommentDto">
 	    SELECT tu.USER_NAME,
 		       tc.CONTENT,
-		       tf.FILE_SAVE_NAME
+		       tf.FILE_SAVE_NAME,
+		       tc.COMMENT_NO
 		FROM TBOARDCOMMENT tbc
 		JOIN TUSER tu ON tbc.INSERT_USER_NO = tu.USER_NO
 		JOIN TCOMMENT tc ON tbc.COMMENT_NO = tc.COMMENT_NO
@@ -138,5 +140,9 @@
         LEFT JOIN TUSER tu ON tb.INSERT_USER_NO = tu.USER_NO
         WHERE tb.CATEGORY_NO = #{categoryno}
     </select>
+    
+    <delete id="deleteBoardComment" parameterType="int">
+	    DELETE FROM TBOARDCOMMENT WHERE COMMENT_NO = #{commentNo}
+	</delete>
     
 </mapper>

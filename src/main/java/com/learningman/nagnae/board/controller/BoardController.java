@@ -209,7 +209,7 @@ public class BoardController {
 	
 	//--------------------------- Delete ------------------------------
 	@DeleteMapping("/readdelete")
-	public ResponseEntity<ResponseMsg> BoardReadDelte(@RequestParam("boardno") Long boardno,
+	public ResponseEntity<ResponseMsg> BoardReadDelete(@RequestParam("boardno") Long boardno,
 													  HttpServletRequest request) {
 		System.out.println("BoardController.BoardReadDelte()");
 		
@@ -218,6 +218,25 @@ public class BoardController {
 		if (no != -1) {
 
 			boardService.exeBoardDelete(boardno);
+			
+			return ResponseEntity.ok(ResponseMsg.success("성공"));
+		}else {
+			
+			return ResponseEntity.ok(ResponseMsg.fail("실패"));
+		}
+		
+	}
+	
+	@DeleteMapping("/deletecomment")
+	public ResponseEntity<ResponseMsg> DeleteComment(@RequestParam("commentno") int commentno,
+													  HttpServletRequest request) {
+		System.out.println("BoardController.BoardReadDelte()");
+		
+		int no = JwtUtil.getNoFromHeader(request);
+		
+		if (no != -1) {
+
+			boardService.exeCommentDelete(commentno);
 			
 			return ResponseEntity.ok(ResponseMsg.success("성공"));
 		}else {
