@@ -28,13 +28,13 @@ jobs:
         run: mvn clean package
 
       - name: Build Docker image
-        run: docker build . -t lukdown10/nagnae:latest
+        run: docker build . -t hyunsujung3679/nagnae-spring-20240823-1:latest
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Docker image to Docker Hub
-        run: docker push lukdown10/nagnae:latest
+        run: docker push hyunsujung3679/nagnae-spring-20240823-1:latest
         
         
   SSH:
@@ -50,11 +50,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             sudo mkdir -p /home/ec2-user/upload
-            sudo docker pull lukdown10/nagnae:latest
+            sudo docker pull hyunsujung3679/nagnae-spring-20240823-1:latest
             sudo docker stop nagnae || true
             sudo docker rm nagnae || true
             sudo docker run -d \
               --name nagnae \
-              -p 9020:9020 \
+              -p 9000:9000 \
               -v /home/ec2-user/upload:/app/upload \
-              lukdown10/nagnae:latest
+              hyunsujung3679/nagnae-spring-20240823-1:latest
