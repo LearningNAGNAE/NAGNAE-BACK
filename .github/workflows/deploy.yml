@@ -48,11 +48,11 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          mkdir -p /home/ubuntu/upload
-          docker pull hyunsujung3679/nagnae-spring-20240823-1:latest
-          docker stop nagnae || true
-          docker rm nagnae || true
-          docker run -d \
+          sudo mkdir -p /home/ubuntu/upload
+          sudo docker pull hyunsujung3679/nagnae-spring-20240823-1:latest
+          sudo docker stop nagnae || true
+          sudo docker rm nagnae || true
+          sudo docker run -d \
             --name nagnae \
             -p 9000:9000 \
             -v /home/ubuntu/upload:/app/upload \
